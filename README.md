@@ -2,11 +2,16 @@
 
 The project for Europeana Hackaton in Vienna
 
-## To start developing run plovr:
+## To start developing 
+
+1. Download webglearth project from GitHub: https://github.com/webglearth/webglearth
+   and symlink the *api* and *we* directories into the tree of this project
+
+2. Run:
 
      java -jar plovr.jar serve main.json
 
-and then open in the web browser *main.html* file 
+3. Open in the web browser file *main.html* (best with latest Google Chrome browser)
 
 ## Queries:
 

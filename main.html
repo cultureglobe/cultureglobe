@@ -2,6 +2,9 @@
   <head>
     <script src="http://localhost:9810/compile?id=europeana"></script>
     <style>
+
+html, body { overflow: hidden; width: 100%; height: 100%; padding:0; margin:0; }
+
 .goog-twothumbslider-vertical,.goog-twothumbslider-horizontal {
 	background-color: ThreeDFace;
 	position: relative;
@@ -40,19 +43,42 @@
 	width: 20px;
 }
 
+#s-i {
+	text-align: center;
+	margin:2em;
+}
+
 #s-h {
+	text-align: center;
 	margin-bottom: 2em;
+}
+
+#q { width: 300px; }
+
+#earth {
+	position:relative;
+	width:100%;
+	height:70%;
+	background-color:black;
 }
 
 #out1,#out2 {
 	color: #999;
 	margin-left: 1em;
 }
+
+
 </style>
   </head>
   <body onload="main()">
+
+  <div id="s-i">
+    <form action="#" method="post">
+      <input type="text" id="q" name="q">
+    </form>
+  </div>
   <div id="s-h">
-    <div id="s1" class="goog-twothumbslider" style="width: 200px; height: 20px">
+    <div id="s1" class="goog-twothumbslider" style="width: 200px; height: 20px; margin: 0 auto;">
       <!-- this line is here just to show that custom content can be added -->
       <div style="position:absolute;width:100%;top:9px;border:1px inset white;
                   overflow:hidden;height:0"></div>
@@ -61,8 +87,11 @@
     </div>
 
     <label>
-      <span id="out1"></span>
+      <span id="out1">&nbsp;</span>
     </label>
   </div>
+
+  <div id="earth"></div>
+
   </body>
 </html>

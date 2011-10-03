@@ -1,11 +1,11 @@
 goog.provide('europeana.main');
 
-goog.require('goog.debug.ErrorHandler');
 goog.require('goog.ui.Component');
 goog.require('goog.ui.TwoThumbSlider');
 goog.require('goog.dom');
 goog.require('goog.net.Jsonp');
-goog.require('goog.text.LoremIpsum');
+
+goog.require('europeana.weapp');
 
 // var API_KEY = "IAVQBBDOQQ";
 var API_KEY = "IZHBRKKFDW";
@@ -31,6 +31,9 @@ europeana.main = function() {
 		document.getElementById('out1').innerHTML = 'start: ' + s.getValue()
 				+ ' end: ' + (s.getValue() + s.getExtent());
 	});
+	
+	// Initialize the WebGL Earth
+	europeana.weapp.run();
 
 	// JSONP Europeana query codes sample
 	// var jsonp = new goog.net.Jsonp(europeana.query(0, 2010, 0, -20, 80, 110, 1));

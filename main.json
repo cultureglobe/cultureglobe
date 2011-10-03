@@ -5,9 +5,11 @@
     "goog.dom.ASSUME_STANDARDS_MODE": true
   },
   "inputs": "main.js",
-//  "paths": [
-//    "./we"
-//  ],
+  "paths": [
+    ".",
+    "we",
+    "api"
+  ],
   "mode": "SIMPLE",
-  "level": "VERBOSE"
+  "level": "DEFAULT" // "VERBOSE"
 }
