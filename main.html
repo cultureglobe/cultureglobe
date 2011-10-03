@@ -1,8 +1,68 @@
 <html>
   <head>
     <script src="http://localhost:9810/compile?id=europeana"></script>
+    <style>
+.goog-twothumbslider-vertical,.goog-twothumbslider-horizontal {
+	background-color: ThreeDFace;
+	position: relative;
+	overflow: hidden;
+}
+
+.goog-twothumbslider-value-thumb {
+	position: absolute;
+	background-color: ThreeDShadow;
+	overflow: hidden;
+}
+
+.goog-twothumbslider-extent-thumb {
+	position: absolute;
+	background-color: #FF0000;
+	overflow: hidden;
+}
+
+.goog-twothumbslider-vertical .goog-twothumbslider-value-thumb {
+	height: 20px;
+	width: 100%;
+}
+
+.goog-twothumbslider-vertical .goog-twothumbslider-extent-thumb {
+	height: 20px;
+	width: 100%;
+}
+
+.goog-twothumbslider-horizontal .goog-twothumbslider-value-thumb {
+	width: 20px;
+	height: 100%;
+}
+
+.goog-twothumbslider-horizontal .goog-twothumbslider-extent-thumb {
+	height: 20px;
+	width: 20px;
+}
+
+#s-h {
+	margin-bottom: 2em;
+}
+
+#out1,#out2 {
+	color: #999;
+	margin-left: 1em;
+}
+</style>
   </head>
   <body onload="main()">
-    
+  <div id="s-h">
+    <div id="s1" class="goog-twothumbslider" style="width: 200px; height: 20px">
+      <!-- this line is here just to show that custom content can be added -->
+      <div style="position:absolute;width:100%;top:9px;border:1px inset white;
+                  overflow:hidden;height:0"></div>
+      <div class="goog-twothumbslider-value-thumb"></div>
+      <div class="goog-twothumbslider-extent-thumb"></div>
+    </div>
+
+    <label>
+      <span id="out1"></span>
+    </label>
+  </div>
   </body>
 </html>
