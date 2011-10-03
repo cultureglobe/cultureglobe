@@ -1,0 +1,13 @@
+{
+  "id": "europeana",
+  "define": {
+    "goog.DEBUG": false,
+    "goog.dom.ASSUME_STANDARDS_MODE": true
+  },
+  "inputs": "./main.js",
+//  "paths": [
+//    "./we"
+//  ],
+  "mode": "ADVANCED",
+  "level": "VERBOSE"
+}
