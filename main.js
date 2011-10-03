@@ -1,16 +1,29 @@
 goog.provide('europeana.main');
 
 goog.require('goog.dom');
+goog.require('goog.net.Jsonp');
 goog.require('goog.text.LoremIpsum');
 
-europeana.main = function() {
-  var newHeader = goog.dom.createDom('h1', {'style': 'background-color:#EEE'},
-    'Hello world!');
-  goog.dom.appendChild(document.body, newHeader);
+// var API_KEY = "IAVQBBDOQQ";
+var API_KEY = "IZHBRKKFDW";
 
-  var generator = new goog.text.LoremIpsum();
-  var newContent = goog.dom.createDom('div', {}, generator.generateParagraph(true));
-  goog.dom.appendChild(document.body, newContent);
+europeana.query = function(fromYear, toYear, fromLat, fromLon, toLat, toLon, startPage) {
+	return "http://acceptance.europeana.eu/api/opensearch.json?" +
+		"wskey=" + API_KEY +
+		"&startPage=" + startPage +
+		"&searchTerms=" + 
+		"enrichment_period_begin%3A[" + fromYear + "-01-01T00%3A00%3A00Z+TO+" + toYear + "-01-01T23%3A59%3A59Z]+AND+" +
+		"enrichment_period_end%3A[" + fromYear + "-01-01T00%3A00%3A00Z+TO+" + toYear + "-01-01T23%3A59%3A59Z]" +
+		"enrichment_place_latitude%3A[" + fromLat + "+TO+" + toLat + "]+AND+" +
+		"enrichment_place_longitude%3A[" + fromLon + "+TO+" + toLon + "]";
 }
+
+europeana.main = function() {
+  var jsonp = new goog.net.Jsonp(europeana.query(0, 2010, 0, -20, 80, 110, 1));
+  jsonp.send({}, function(data) {
+	  alert(data);	  
+  });
+}
+
 
 window['main'] = europeana.main;
