@@ -4,10 +4,10 @@
     "goog.DEBUG": false,
     "goog.dom.ASSUME_STANDARDS_MODE": true
   },
-  "inputs": "./main.js",
+  "inputs": "main.js",
 //  "paths": [
 //    "./we"
 //  ],
-  "mode": "ADVANCED",
+  "mode": "SIMPLE",
   "level": "VERBOSE"
 }
