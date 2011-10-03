@@ -6,7 +6,7 @@ The project for Europeana Hackaton in Vienna
 
      java -jar plovr.jar serve main.json
 
-and then open in the web browser main.html file in your browser
+and then open in the web browser *main.html* file 
 
 ## Queries:
 
