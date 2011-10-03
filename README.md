@@ -6,6 +6,8 @@ The project for Europeana Hackaton in Vienna
 
      java -jar plovr.jar serve main.json
 
+and then open in the web browser main.html file in your browser
+
 ## Queries:
 
 This query retrieves records for a geo boundingbox
