@@ -53,6 +53,7 @@ europeana.query = function(term, fromYear, toYear, fromLat, fromLon, toLat, toLo
 	return "http://acceptance.europeana.eu/api/opensearch.json?" + "wskey="
 			+ API_KEY + "&startPage=" + startPage + "&searchTerms="
 			+ term + "+AND+"
+			+ "europeana_type:*IMAGE*+AND+"
 			+ "enrichment_period_begin%3A[" + fromYear
 			+ "-01-01T00%3A00%3A00Z+TO+" + toYear
 			+ "-01-01T23%3A59%3A59Z]+AND+" + "enrichment_period_end%3A["
