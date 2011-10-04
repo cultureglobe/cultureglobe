@@ -102,6 +102,9 @@ europeana.main = function() {
 		if (parseInt(period_start) < 1750) {
 			period_start = 1750;
 		}
+		if (parseInt(period_end) > 2010) {
+			period_end = 2010;
+		}
 		slider.setValue(parseInt(period_start));
 		slider.setExtent(parseInt(period_end)-parseInt(period_start));
 	});
