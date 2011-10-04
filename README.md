@@ -10,6 +10,8 @@ Run:
 
 Open in the web browser the file *main.html* (with the latest Google Chrome browser)
 
+Now you can start to edit the code and just reload the page in browser and the code is recompiled and shown. If there is an error you should see it at the top of the page.
+
 ## Queries:
 
 This query retrieves records for a geo boundingbox
