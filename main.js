@@ -28,6 +28,8 @@ europeana.main = function() {
 	var el = document.getElementById('s1');
 	var s = new goog.ui.TwoThumbSlider;
 	s.decorate(el);
+	s.setMinimum(1000);
+	s.setMaximum(2010);
 	s.addEventListener(goog.ui.Component.EventType.CHANGE, function() {
 		document.getElementById('out1').innerHTML = 'start: ' + s.getValue()
 				+ ' end: ' + (s.getValue() + s.getExtent());
@@ -39,7 +41,7 @@ europeana.main = function() {
 	
 	var searchField = document.getElementById('q');
 	goog.events.listen(searchField, goog.ui.Component.EventType.CHANGE, function() {
-		var jsonp = new goog.net.Jsonp(europeana.query(searchField.value, 0, 2010, 0, -20, 80, 110, 1));
+		var jsonp = new goog.net.Jsonp(europeana.query(searchField.value, s.getValue(), (s.getValue() + s.getExtent()), 0, -20, 80, 110, 1));
 		jsonp.send({}, function(data) { console.log(data); });
 	});
 	
