@@ -94,6 +94,9 @@ europeana.main = function() {
 		period_start = period_start.replace(/-.*/g, '');
 		var period_end = period.replace(/\)/g, '');
 		period_end = period_end.replace(/.*-/g, '');
+		if (parseInt(period_start) < 1750) {
+			period_start = 1750;
+		}
 		slider.setValue(parseInt(period_start));
 		slider.setExtent(parseInt(period_end)-parseInt(period_start));
 	});
