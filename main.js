@@ -50,10 +50,14 @@ europeana.makeQuery = function() {
 
 europeana.query = function(term, fromYear, toYear, fromLat, fromLon, toLat, toLon,
 		startPage) {
-	return "http://acceptance.europeana.eu/api/opensearch.json?" + "wskey="
-			+ API_KEY + "&startPage=" + startPage + "&searchTerms="
-			+ term + "+AND+"
-			+ "europeana_type:*IMAGE*+AND+"
+	
+	var q = "http://acceptance.europeana.eu/api/opensearch.json?" + "wskey="
+			+ API_KEY + "&startPage=" + startPage + "&searchTerms=";
+	
+	if (term)
+		q += term + "+AND+";
+			
+	q +=  "europeana_type:*IMAGE*+AND+"
 			+ "enrichment_period_begin%3A[" + fromYear
 			+ "-01-01T00%3A00%3A00Z+TO+" + toYear
 			+ "-01-01T23%3A59%3A59Z]+AND+" + "enrichment_period_end%3A["
@@ -61,6 +65,8 @@ europeana.query = function(term, fromYear, toYear, fromLat, fromLon, toLat, toLo
 			+ "-01-01T23%3A59%3A59Z]" + "enrichment_place_latitude%3A["
 			+ fromLat + "+TO+" + toLat + "]+AND+"
 			+ "enrichment_place_longitude%3A[" + fromLon + "+TO+" + toLon + "]";
+	
+	return q;
 }
 
 europeana.main = function() {
@@ -77,8 +83,7 @@ europeana.main = function() {
 	});
 	
 	goog.events.listen(slider, goog.ui.Component.EventType.CHANGE, function() { 
-		if (searchField.value)
-			europeana.makeQuery();
+		europeana.makeQuery();
 	});
 	
 	searchField = document.getElementById('q');
