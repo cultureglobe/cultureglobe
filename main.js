@@ -77,7 +77,8 @@ europeana.main = function() {
 	});
 	
 	goog.events.listen(slider, goog.ui.Component.EventType.CHANGE, function() { 
-		
+		if (searchField.value)
+			europeana.makeQuery();
 	});
 	
 	searchField = document.getElementById('q');
