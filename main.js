@@ -6,7 +6,7 @@ goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.net.Jsonp');
 
-// goog.require('europeana.weapp');
+goog.require('europeana.weapp');
 
 // var API_KEY = "IAVQBBDOQQ";
 var API_KEY = "IZHBRKKFDW";
@@ -97,7 +97,7 @@ europeana.main = function() {
 		slider.setExtent(parseInt(period_end)-parseInt(period_start));
 	});
 	// Initialize the WebGL Earth
-	// europeana.weapp.run();
+	europeana.weapp.run();
 }
 
 window['main'] = europeana.main;
