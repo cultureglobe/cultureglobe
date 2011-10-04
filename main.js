@@ -10,6 +10,43 @@ goog.require('goog.net.Jsonp');
 // var API_KEY = "IAVQBBDOQQ";
 var API_KEY = "IZHBRKKFDW";
 
+var timer;
+var slider;
+var searchField;
+
+europeana.makeQuery = function() {
+	// This function is called onChange events and while typing - it makes the throttling well
+ 
+	// If the timer has a waiting query, then trash it - it is obsolute, because we have a new one
+	if (timer) {
+		goog.Timer.clear(timer);
+		timer = null;
+	}
+ 
+	// Don't proceed with the JSONP query immediatelly, but wait for 500 ms if the user doesn't make a new one.
+	var jsonp = new goog.net.Jsonp(europeana.query(searchField.value, slider.getValue(), (slider.getValue() + slider.getExtent()), 0, -20, 80, 110, 1));
+		
+	timer = goog.Timer.callOnce(function() {
+		jsonp.send({}, function(data) { console.log(data); timer = null; });		
+		/*
+		if (!dragging) {
+    
+		// Remove old results
+    	goog.dom.removeChildren( goog.dom.$('sidecanvas') );
+    	activeRecord = null;
+    
+    	nextIndex = result['next_index'];
+
+    	// Iterate on the JSON and add new results
+    	goog.array.forEach(result['records'], addResult );
+    
+		
+		// Stop the timer
+		timer = null;
+	}*/
+	}, 500);
+}
+
 europeana.query = function(term, fromYear, toYear, fromLat, fromLon, toLat, toLon,
 		startPage) {
 	return "http://acceptance.europeana.eu/api/opensearch.json?" + "wskey="
@@ -26,25 +63,26 @@ europeana.query = function(term, fromYear, toYear, fromLat, fromLon, toLat, toLo
 
 europeana.main = function() {
 	var el = document.getElementById('s1');
-	var s = new goog.ui.TwoThumbSlider;
-	s.decorate(el);
-	s.setMinimum(1750);
-	s.setMaximum(2010);
-	s.setExtent(260);
-	s.setStep(5);
-	s.addEventListener(goog.ui.Component.EventType.CHANGE, function() {
-		document.getElementById('out1').innerHTML = 'start: ' + s.getValue()
-				+ ' end: ' + (s.getValue() + s.getExtent());
+	slider = new goog.ui.TwoThumbSlider;
+	slider.decorate(el);
+	slider.setMinimum(1750);
+	slider.setMaximum(2010);
+	slider.setExtent(260);
+	slider.setStep(5);
+	slider.addEventListener(goog.ui.Component.EventType.CHANGE, function() {
+		document.getElementById('out1').innerHTML = 'start: ' + slider.getValue()
+				+ ' end: ' + (slider.getValue() + slider.getExtent());
 	});
 	
-	goog.events.listen(s, goog.ui.Component.EventType.CHANGE, function() { 
+	goog.events.listen(slider, goog.ui.Component.EventType.CHANGE, function() { 
 		
 	});
 	
-	var searchField = document.getElementById('q');
+	searchField = document.getElementById('q');
 	goog.events.listen(searchField, goog.ui.Component.EventType.CHANGE, function() {
-		var jsonp = new goog.net.Jsonp(europeana.query(searchField.value, s.getValue(), (s.getValue() + s.getExtent()), 0, -20, 80, 110, 1));
-		jsonp.send({}, function(data) { console.log(data); });
+		// var jsonp = new goog.net.Jsonp(europeana.query(searchField.value, s.getValue(), (s.getValue() + s.getExtent()), 0, -20, 80, 110, 1));
+		// jsonp.send({}, function(data) { console.log(data); });
+		europeana.makeQuery();
 	});
 	
 	
