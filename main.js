@@ -3,6 +3,7 @@ goog.provide('europeana.main');
 goog.require('goog.ui.Component');
 goog.require('goog.ui.TwoThumbSlider');
 goog.require('goog.dom');
+goog.require('goog.events');
 goog.require('goog.net.Jsonp');
 
 // goog.require('europeana.weapp');
@@ -85,19 +86,15 @@ europeana.main = function() {
 		europeana.makeQuery();
 	});
 	
- 	goog.events.listen(goog.dom.getElement('period'), "change", function() {
+ 	goog.events.listen(goog.dom.getElement('period'), goog.ui.Component.EventType.CHANGE, function() {
 		var period = goog.dom.getElement('period').value;
 		var period_start = period.replace(/.*\(/g, '');
 		period_start = period_start.replace(/-.*/g, '');
 		var period_end = period.replace(/\)/g, '');
 		period_end = period_end.replace(/.*-/g, '');
-		// alert(s.getValue());
-		s.setMinimum(5);
-		//s.setValue(period_end);
-	
-		// alert(period_end);
+		s.setValue(parseInt(period_start));
+		s.setExtent(parseInt(period_end)-parseInt(period_start));
 	});
-	
 	// Initialize the WebGL Earth
 	// europeana.weapp.run();
 }
