@@ -28,8 +28,10 @@ europeana.main = function() {
 	var el = document.getElementById('s1');
 	var s = new goog.ui.TwoThumbSlider;
 	s.decorate(el);
-	s.setMinimum(1000);
+	s.setMinimum(1750);
 	s.setMaximum(2010);
+	s.setExtent(260);
+	s.setStep(5);
 	s.addEventListener(goog.ui.Component.EventType.CHANGE, function() {
 		document.getElementById('out1').innerHTML = 'start: ' + s.getValue()
 				+ ' end: ' + (s.getValue() + s.getExtent());
