@@ -47,6 +47,18 @@ europeana.main = function() {
 		jsonp.send({}, function(data) { console.log(data); });
 	});
 	
+ 	goog.events.listen(goog.dom.getElement('period'), "change", function() {
+		var period = goog.dom.getElement('period').value;
+		var period_start = period.replace(/.*\(/g, '');
+		period_start = period_start.replace(/-.*/g, '');
+		var period_end = period.replace(/\)/g, '');
+		period_end = period_end.replace(/.*-/g, '');
+		// alert(s.getValue());
+		s.setMinimum(5);
+		//s.setValue(period_end);
+	
+		// alert(period_end);
+	});
 	
 	// Initialize the WebGL Earth
 	// europeana.weapp.run();
