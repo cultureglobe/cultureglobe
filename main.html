@@ -15,31 +15,23 @@ html, body {
 }
 
 .goog-twothumbslider-vertical,.goog-twothumbslider-horizontal {
-	background-color: ThreeDFace;
 	position: relative;
 	overflow: hidden;
+	outline: none;
 }
 
 .goog-twothumbslider-value-thumb {
 	position: absolute;
-	background-color: ThreeDShadow;
+	background-color: #FF0000;
 	overflow: hidden;
+	cursor: pointer;
 }
 
 .goog-twothumbslider-extent-thumb {
 	position: absolute;
 	background-color: #FF0000;
 	overflow: hidden;
-}
-
-.goog-twothumbslider-vertical .goog-twothumbslider-value-thumb {
-	height: 20px;
-	width: 100%;
-}
-
-.goog-twothumbslider-vertical .goog-twothumbslider-extent-thumb {
-	height: 20px;
-	width: 100%;
+	cursor: pointer;
 }
 
 .goog-twothumbslider-horizontal .goog-twothumbslider-value-thumb {
@@ -48,7 +40,7 @@ html, body {
 }
 
 .goog-twothumbslider-horizontal .goog-twothumbslider-extent-thumb {
-	height: 20px;
+	height: 100%;
 	width: 20px;
 }
 
@@ -175,10 +167,9 @@ html, body {
 		</select>
     </div>
 	<div>
-      <div id="s1" class="goog-twothumbslider" style="width: 600px; height: 20px; margin: 0 auto;">
+      <div id="s1" class="goog-twothumbslider" style="width: 540px; height: 59px; margin: 0 auto; background-image:url(data/slider-img.png);">
         <!-- this line is here just to show that custom content can be added -->
-        <div style="position:absolute;width:100%;top:9px;border:1px inset white;
-                    overflow:hidden;height:0"></div>
+        <div style="position:absolute;width:100%;top:9px;overflow:hidden;height:0"></div>
         <div class="goog-twothumbslider-value-thumb"></div>
         <div class="goog-twothumbslider-extent-thumb"></div>
       </div>
