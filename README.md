@@ -1,4 +1,4 @@
-# Europeana 3D Browser
+# Culture Globe - powered by Europeana OpenSearch API and WebGL Earth
 
 The project for Europeana Hackaton in Vienna
 
