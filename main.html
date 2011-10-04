@@ -113,6 +113,12 @@ a:hover, a:link, a:visited
 	outline:none;
 }
 
+#periods {
+	width:100%;
+	text-align:center;
+	margin:0px auto 20px auto;
+}
+
 #poweredby {
 	position:absolute;
 	bottom: 30px; left:0px;
@@ -132,7 +138,22 @@ a:hover, a:link, a:visited
     </div>
     <div id="s-h">
 		<div id="s-left">
-		<select id='period' name='period'>
+    	</div>
+		<div id="s-right">
+      <div id="s1" class="goog-twothumbslider" style="width: 540px; height: 59px; margin: 0 auto; background-image:url(data/slider-img.png);">
+        <!-- this line is here just to show that custom content can be added -->
+        <div style="position:absolute;width:100%;top:9px;overflow:hidden;height:0"></div>
+        <div class="goog-twothumbslider-value-thumb"></div>
+        <div class="goog-twothumbslider-extent-thumb"></div>
+      </div>
+	</div>
+      <label>
+        <span id="out1">&nbsp;</span>
+      </label>
+	</div>
+	
+    <div id="periods">
+    		<select id='period' name='period'>
 			<option value="Deconstructivism (1982-2010)">Deconstructivism (1982-2010)</option>
 			<option value="Memphis Group (1981-1988)">Memphis Group (1981-1988)</option>
 			<option value="High-tech architecture (1971-2010)">High-tech architecture (1971-2010)</option>
@@ -181,19 +202,9 @@ a:hover, a:link, a:visited
 			<option value="Neoclassical architecture (1760-1780)">Neoclassical architecture (1760-1780)</option>
 			<option value="Georgian architecture (1720-1760)">Georgian architecture (1720-1760)</option>
 		</select>
-    	</div>
-		<div id="s-right">
-      <div id="s1" class="goog-twothumbslider" style="width: 540px; height: 59px; margin: 0 auto; background-image:url(data/slider-img.png);">
-        <!-- this line is here just to show that custom content can be added -->
-        <div style="position:absolute;width:100%;top:9px;overflow:hidden;height:0"></div>
-        <div class="goog-twothumbslider-value-thumb"></div>
-        <div class="goog-twothumbslider-extent-thumb"></div>
-      </div>
-	</div>
-      <label>
-        <span id="out1">&nbsp;</span>
-      </label>
-	</div>
+    </div>
+
+	
   </div>
 
   <div id="earth"></div>
