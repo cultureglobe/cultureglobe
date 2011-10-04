@@ -5,15 +5,16 @@ goog.require('goog.ui.TwoThumbSlider');
 goog.require('goog.dom');
 goog.require('goog.net.Jsonp');
 
-goog.require('europeana.weapp');
+// goog.require('europeana.weapp');
 
 // var API_KEY = "IAVQBBDOQQ";
 var API_KEY = "IZHBRKKFDW";
 
-europeana.query = function(fromYear, toYear, fromLat, fromLon, toLat, toLon,
+europeana.query = function(term, fromYear, toYear, fromLat, fromLon, toLat, toLon,
 		startPage) {
 	return "http://acceptance.europeana.eu/api/opensearch.json?" + "wskey="
 			+ API_KEY + "&startPage=" + startPage + "&searchTerms="
+			+ term + "+AND+"
 			+ "enrichment_period_begin%3A[" + fromYear
 			+ "-01-01T00%3A00%3A00Z+TO+" + toYear
 			+ "-01-01T23%3A59%3A59Z]+AND+" + "enrichment_period_end%3A["
@@ -32,12 +33,19 @@ europeana.main = function() {
 				+ ' end: ' + (s.getValue() + s.getExtent());
 	});
 	
+	goog.events.listen(s, goog.ui.Component.EventType.CHANGE, function() { 
+		
+	});
+	
+	var searchField = document.getElementById('q');
+	goog.events.listen(searchField, goog.ui.Component.EventType.CHANGE, function() {
+		var jsonp = new goog.net.Jsonp(europeana.query(searchField.value, 0, 2010, 0, -20, 80, 110, 1));
+		jsonp.send({}, function(data) { console.log(data); });
+	});
+	
+	
 	// Initialize the WebGL Earth
-	europeana.weapp.run();
-
-	// JSONP Europeana query codes sample
-	// var jsonp = new goog.net.Jsonp(europeana.query(0, 2010, 0, -20, 80, 110, 1));
-	// jsonp.send({}, function(data) { alert(data); });
+	// europeana.weapp.run();
 }
 
 window['main'] = europeana.main;
