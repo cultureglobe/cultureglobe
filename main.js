@@ -77,6 +77,7 @@ europeana.main = function() {
 	slider.setMaximum(2010);
 	slider.setExtent(260);
 	slider.setStep(5);
+	slider.setMoveToPointEnabled(true);
 	slider.addEventListener(goog.ui.Component.EventType.CHANGE, function() {
 		document.getElementById('out1').innerHTML = 'start: ' + slider.getValue()
 				+ ' end: ' + (slider.getValue() + slider.getExtent());
