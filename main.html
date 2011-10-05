@@ -12,6 +12,8 @@ html, body {
 	margin:0;
 	font-size:10px;
 	font-family: arial, sans-serif;
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 .goog-twothumbslider-vertical,.goog-twothumbslider-horizontal {
@@ -70,8 +72,7 @@ html, body {
 
 a:hover, a:link, a:visited
 { 
-	color:#fff;
-	text-decoration:none;
+	color:#ccc;
 }
 
 #header {
@@ -102,6 +103,7 @@ a:hover, a:link, a:visited
 	color: white;
 	background: rgb(0, 0, 0); /* The Fallback */
 	background: rgba(0, 0, 0, 0.6);
+	line-height:140%;
 }
 
 #out1,#out2 {
@@ -121,8 +123,54 @@ a:hover, a:link, a:visited
 
 #poweredby {
 	position:absolute;
-	bottom: 30px; left:0px;
+	top: 0px; left:0px;
+	z-index:3000;
 }
+
+a.marker {
+	position:absolute;
+	background:#fff;
+	padding:3px;
+	margin:-32px 0 0 -0px;
+	opacity:0.8;
+	box-shadow: 0 1px 3px #ccc;
+	border-radius:2px;
+}
+a.marker img {
+	width: 70px;
+}
+a.marker:hover {
+	opacity:1.0;
+	z-index:3000;
+	text-decoration: none;
+	cursor:pointer;
+}
+a.marker .makertitle {
+	color:#000;
+	font-weight: bold;
+	display:none;
+	position:absolute;
+	top:0;
+	left:75;
+	background:#fff;
+	padding:3px;
+	box-shadow: 0 1px 3px #ccc;
+	border-radius:2px;
+	width:170px;
+	text-decoration: none;
+}
+a.marker:hover .makertitle {
+	text-decoration: none;
+	display: block;
+}
+#loading {
+	display:block;
+	position:absolute;
+	bottom:55px;
+	left:50%;
+	margin: 0 0 0 -16px;
+}
+
 
 </style>
   </head>
@@ -210,6 +258,8 @@ a:hover, a:link, a:visited
   <div id="earth"></div>
 
   <a id="poweredby" href="http://www.europeana.eu/"><img src="data/poweredby-white.png" alt="Powered by Europeana"></a>
+
+  <div id="loading"><img src="data/ajax-loader.gif" alt="Loading.."></div>
 
   <div id="footer">Developed by Petr Pridal (<a href="http://www.klokantech.com/">Klokan Technologies</a>), Rainer Simon (<a href="http://www.ait.ac.at">Austrian Institute of Technology</a>), Anja Jentzsch (<a href="http://www.wbsg.de">Freie Universit&auml;t Berlin</a>), Ulrike Krabo (<a href="http://www.obvsg.at">Austrian Library Network and Service Ldt.</a>), Elaheh Momeni (<a href="http://cs.univie.ac.at/">University of Vienna - Faculty of Computer Science</a>) during EuropeanaTech Hackaton in Vienna</div>
 

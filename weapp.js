@@ -1,4 +1,5 @@
 goog.provide('europeana.weapp');
+goog.provide('europeana.weapp.Marker');
 
 goog.require('goog.dom');
 goog.require('goog.math');
@@ -8,12 +9,49 @@ goog.require('we.scene.Scene');
 goog.require('weapi.App');
 goog.require('we.texturing.OSMTileProvider');
 
-goog.require('we.ui.markers.PrettyMarker');
+goog.require('we.ui.markers.AbstractMarker');
 
 /**
  * Global variable for the WebGL Earth application
  */
 var app = null;
+
+
+/**
+ * @inheritDoc
+ * @extends {we.ui.markers.AbstractMarker}
+ * @constructor
+ */
+europeana.weapp.Marker = function(lat, lon, image, url, title, institution) {
+
+  var el = goog.dom.createDom('a', {'class':'marker', 'href':url, 'target':'_blank'}, 
+    goog.dom.createDom('img', {'src': image}),
+    goog.dom.createDom('div', {'class': 'makertitle'},
+      goog.dom.createTextNode(title),
+      goog.dom.createDom('div', {'style': 'color:#ccc'},
+        goog.dom.createTextNode(institution)
+      )
+    )
+  );
+
+  goog.base(this, lat, lon, /** @type {!HTMLElement} */ (el));
+
+  this.show(false);
+};
+goog.inherits(europeana.weapp.Marker, we.ui.markers.AbstractMarker);
+
+/**
+ * Display markers from the provided jsondata
+ */
+europeana.weapp.addMarkers = function(jsondata) {
+	// app.markerManager_.removeMarker(m1key);
+	var m1 = new europeana.weapp.Marker(45.0,6.0,
+		'http://europeanastatic.eu/api/image?uri=http%3A%2F%2Fwww.peoplesnetwork.gov.uk%2Fdpp%2Fresource%2F2387615%2Fstream%2Fthumbnail_image_jpeg&size=FULL_DOC&type=IMAGE',
+		'http://www.europeana.eu/',
+		'Quite a long description of the title of the Marker',
+		'Institution');
+	var m1key = app.markerManager_.addMarker(null, m1);
+}
 
 /**
  * Run the europeana app.
@@ -32,12 +70,6 @@ europeana.weapp.run = function() {
 	
 	// window.setTimeout('alert(app.context.scene.camera.getPositionDegrees())',2000);
 	// window.setTimeout('alert(app.context.scene.earth.getZoom();)',2000);
-	
-	var m1 = new we.ui.markers.PrettyMarker(45.0,6.0,'http://europeanastatic.eu/api/image?uri=http%3A%2F%2Fwww.peoplesnetwork.gov.uk%2Fdpp%2Fresource%2F2387615%2Fstream%2Fthumbnail_image_jpeg&size=FULL_DOC&type=IMAGE');
-	var m1key = app.markerManager_.addMarker(null, m1);
-	// app.markerManager_.removeMarker(m1key);
-	
+		
 	// onResize: app.context.resize()
-	
-	// 
 };

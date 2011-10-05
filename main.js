@@ -111,6 +111,8 @@ europeana.main = function() {
 	});
 	// Initialize the WebGL Earth
 	europeana.weapp.run();
+	
+	europeana.weapp.addMarkers();
 }
 
 window['main'] = europeana.main;
