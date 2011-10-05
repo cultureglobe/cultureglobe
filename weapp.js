@@ -3,7 +3,7 @@ goog.provide('europeana.weapp.Marker');
 
 goog.require('goog.dom');
 goog.require('goog.math');
-
+goog.require('goog.string');
 
 goog.require('we.scene.Scene');
 goog.require('weapi.App');
@@ -44,13 +44,30 @@ goog.inherits(europeana.weapp.Marker, we.ui.markers.AbstractMarker);
  * Display markers from the provided jsondata
  */
 europeana.weapp.addMarkers = function(jsondata) {
+	
 	// app.markerManager_.removeMarker(m1key);
+
+	// Iterate on the JSON and add new results
+	goog.array.forEach(jsondata['items'], function(item) {
+		// app.markerManager_.removeMarker(m1key);
+		var m1 = new europeana.weapp.Marker(
+			item['enrichment:place_latitude'],
+			item['enrichment:place_longitude'],
+			item['enclosure'],
+			item['guid'],
+			goog.string.unescapeEntities(item['title']),
+			item['dc:creator'] + ' (' + item['europeana:provider'] + ')' );
+		var m1key = app.markerManager_.addMarker(null, m1);
+	});
+	
+	/*
 	var m1 = new europeana.weapp.Marker(45.0,6.0,
 		'http://europeanastatic.eu/api/image?uri=http%3A%2F%2Fwww.peoplesnetwork.gov.uk%2Fdpp%2Fresource%2F2387615%2Fstream%2Fthumbnail_image_jpeg&size=FULL_DOC&type=IMAGE',
 		'http://www.europeana.eu/',
 		'Quite a long description of the title of the Marker',
 		'Institution');
 	var m1key = app.markerManager_.addMarker(null, m1);
+	*/
 }
 
 /**

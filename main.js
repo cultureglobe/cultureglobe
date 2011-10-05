@@ -3,6 +3,7 @@ goog.provide('europeana.main');
 goog.require('goog.ui.Component');
 goog.require('goog.ui.TwoThumbSlider');
 goog.require('goog.dom');
+goog.require('goog.style');
 goog.require('goog.events');
 goog.require('goog.net.Jsonp');
 
@@ -16,6 +17,9 @@ var slider;
 var searchField;
 
 europeana.makeQuery = function() {
+	
+	goog.style.showElement( goog.dom.getElement('loading'), true );
+	
 	// This function is called onChange events and while typing - it makes the throttling well
  
 	// If the timer has a waiting query, then trash it - it is obsolute, because we have a new one
@@ -28,7 +32,12 @@ europeana.makeQuery = function() {
 	var jsonp = new goog.net.Jsonp(europeana.query(searchField.value, slider.getValue(), (slider.getValue() + slider.getExtent()), 0, -20, 80, 110, 1));
 		
 	timer = goog.Timer.callOnce(function() {
-		jsonp.send({}, function(data) { console.log(data); timer = null; });		
+		jsonp.send({}, function(data) {
+			// console.log(data);
+			europeana.weapp.addMarkers(data);
+			timer = null; 
+			goog.style.showElement( goog.dom.getElement('loading'), false );
+		});
 		/*
 		if (!dragging) {
     
@@ -111,8 +120,9 @@ europeana.main = function() {
 	});
 	// Initialize the WebGL Earth
 	europeana.weapp.run();
-	
-	europeana.weapp.addMarkers();
+
+	// Hide the loading indicator
+	goog.style.showElement( goog.dom.getElement('loading'), false );
 }
 
 window['main'] = europeana.main;
