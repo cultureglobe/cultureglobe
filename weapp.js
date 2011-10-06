@@ -74,14 +74,14 @@ europeana.weapp.addMarkers = function(jsondata) {
  * Run the europeana app.
  */
 europeana.weapp.run = function() {
-	app = new weapi.App('earth', {'zoom':4.0, 'center':[40.0,6.0]});
+	app = new weapi.App('earth', {'altitude':4209543, 'center':[31.38518,15.18749]});
 	
 	// 'zoom':1.5, 'center':[20.0,6.0]
 	// app.animator_.flyTo(goog.math.toRadians(40.0),
 	// 	goog.math.toRadians(6.0),
 	//	1800000, 0.0, 0.6);
 
-	app.context.scene.camera.setTilt(0.6);
+	app.context.scene.camera.setTilt(0.5);
 	var osm = new we.texturing.OSMTileProvider();
 	app.context.scene.earth.changeTileProvider(osm);
 	
