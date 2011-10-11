@@ -56,7 +56,7 @@ europeana.weapp.addMarkers = function(jsondata) {
 			item['enclosure'],
 			item['guid'],
 			goog.string.unescapeEntities(item['title']),
-			item['dc:creator'] + ' (' + item['europeana:provider'] + ')' );
+			goog.string.unescapeEntities(item['dc:creator'] + ' (' + item['europeana:provider'] + ')' ));
 		var m1key = app.markerManager_.addMarker(null, m1);
 	});
 	

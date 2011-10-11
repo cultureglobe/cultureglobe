@@ -129,15 +129,17 @@ a:hover, a:link, a:visited
 
 a.marker {
 	position:absolute;
-	background:#fff;
-	padding:3px;
-	margin:-32px 0 0 -0px;
 	opacity:0.8;
-	box-shadow: 0 1px 3px #ccc;
-	border-radius:2px;
+	margin:-32px 0 0 -0px;
 }
 a.marker img {
-	width: 70px;
+	float:left;
+	max-width: 70px;
+	max-height: 70px;
+	background:#fff;
+	padding:3px;
+	box-shadow: 0 1px 3px #ccc;
+	border-radius:2px;
 }
 a.marker:hover {
 	opacity:1.0;
@@ -146,22 +148,20 @@ a.marker:hover {
 	cursor:pointer;
 }
 a.marker .makertitle {
+	float:left;
 	color:#000;
 	font-weight: bold;
-	display:none;
-	position:absolute;
-	top:0;
-	left:75;
 	background:#fff;
 	padding:3px;
 	box-shadow: 0 1px 3px #ccc;
 	border-radius:2px;
 	width:170px;
 	text-decoration: none;
+	display:none;
 }
 a.marker:hover .makertitle {
 	text-decoration: none;
-	display: block;
+	display: inline-block;
 }
 #loading {
 	position:absolute;
@@ -180,7 +180,7 @@ a.marker:hover .makertitle {
 	<h2>Culture Globe</h2>
     <div id="s-i">
       <form action="#" method="post" onsubmit="return false;">
-        <input type="search" autocomplete="off" placeholder="Search Europeana..." id="q" name="q">
+        <input type="search" placeholder="Search Europeana..." id="q" name="q" autocomplete="off" x-webkit-speech speech>
       </form>
     </div>
     <div id="s-h">
@@ -201,6 +201,7 @@ a.marker:hover .makertitle {
 	
     <div id="periods">
     		<select id='period' name='period'>
+			<option value="" selected>... or choose a period</option>
 			<option value="Deconstructivism (1982-2010)">Deconstructivism (1982-2010)</option>
 			<option value="Memphis Group (1981-1988)">Memphis Group (1981-1988)</option>
 			<option value="High-tech architecture (1971-2010)">High-tech architecture (1971-2010)</option>
@@ -226,7 +227,7 @@ a.marker:hover .makertitle {
 			<option value="Colonial Revival architecture (1890-2011)">Colonial Revival architecture (1890-2011)</option>
 			<option value="City Beautiful movement (1890-1900)">City Beautiful movement (1890-1900)</option>
 			<option value="American Craftsman (1890-1930)">American Craftsman (1890-1930)</option>
-			<option value="" selected>Art nouveau (1895-1926)</option>
+			<option value="Art nouveau (1895-1926)" >Art nouveau (1895-1926)</option>
 			<option value="Jugendstil (1888-1911)">Jugendstil (1888-1911)</option>
 			<option value="Modernisme (1888-1911)">Modernisme (1888-1911)</option>
 			<option value="American Renaissance (1880-1914)">American Renaissance (1880-1914)</option>
