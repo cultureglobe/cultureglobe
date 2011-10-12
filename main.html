@@ -1,6 +1,6 @@
 <html>
   <head>
-	<title>Culture Globe - Europeana Hackaton</title>
+	<title>Europeana Globe - Hackaton Prototype</title>
     <script src="http://localhost:9810/compile?id=europeana"></script>
     <style>
 
@@ -170,14 +170,32 @@ a.marker:hover .makertitle {
 	margin: 0 0 0 -16px;
 }
 
+#klokantechlogo{
+	position:absolute;
+	bottom:30px;right:10px;
+	text-indent:-9999px;
+	width:231px;
+	height:64px;
+	background-repeat:no-repeat;
+	background-position:center center;
+	background-image:url(data/klokantechlogo.png);
+}
+
+#social {
+	position:absolute;
+	width:auto;
+	bottom:45px;
+	left:5px;
+	margin:auto 0;
+}
 
 </style>
   </head>
-  <body onload="main()">
+  <body>
 
   <div id="header">
 	<a href="http://github.com/cultureglobe"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/4c7dc970b89fd04b81c8e221ba88ff99a06c6b61/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub"></a>
-	<h2>Culture Globe</h2>
+	<h2>Europeana Globe</h2>
     <div id="s-i">
       <form action="#" method="post" onsubmit="return false;">
         <input type="search" placeholder="Search Europeana..." id="q" name="q" autocomplete="off" x-webkit-speech speech>
@@ -261,7 +279,26 @@ a.marker:hover .makertitle {
 
   <div id="loading"><img src="data/ajax-loader.gif" alt="Loading.."></div>
 
+  <div id="social">
+	<span class='st_twitter' ></span>
+	<span class='st_facebook' ></span>
+	<span class='st_plusone' ></span>
+	<span class='st_email' ></span>
+	<!--
+	<span class='st_twitter_hcount' ></span>
+	<span class='st_facebook_hcount' ></span>
+	<span class='st_plusone_hcount' ></span>
+	<span class='st_email_hcount' ></span>
+	-->
+  </div>
+
+  <a id="klokantechlogo" href="http://www.klokantech.com/">Klokan Technologies</a>
+
   <div id="footer">Developed by Petr Pridal (<a href="http://www.klokantech.com/">Klokan Technologies</a>), Rainer Simon (<a href="http://www.ait.ac.at">Austrian Institute of Technology</a>), Anja Jentzsch (<a href="http://www.wbsg.de">Freie Universit&auml;t Berlin</a>), Ulrike Krabo (<a href="http://www.obvsg.at">Austrian Library Network and Service Ldt.</a>), Elaheh Momeni (<a href="http://cs.univie.ac.at/">University of Vienna - Faculty of Computer Science</a>) during EuropeanaTech Hackaton in Vienna</div>
 
+	<script type="text/javascript">main();</script>
+	<script type="text/javascript">var switchTo5x=false;</script>
+	<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+	<script type="text/javascript">stLight.options({ publisher:'c86e7495-cfd9-41f5-a486-bd6940531807', });</script>
   </body>
 </html>
