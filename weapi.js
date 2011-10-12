@@ -24,6 +24,7 @@
  * @fileoverview WebGL Earth API Application object.
  *
  * @author petr.sloup@klokantech.com (Petr Sloup)
+ * @author petr.pridal@klokantech.com (Petr Pridal)
  *
  */
 
@@ -41,9 +42,7 @@ goog.require('we.ui.ScenePanner');
 goog.require('we.ui.SceneTilter');
 goog.require('we.ui.markers.MarkerManager');
 goog.require('we.ui.markers.PrettyMarker');
-goog.require('weapi.maps');
-goog.require('weapi.maps.MapType');
-
+goog.require('we.texturing.OSMTileProvider');
 
 
 
@@ -80,7 +79,7 @@ weapi.App = function(divid, opt_options) {
               'position:relative;text-align:center;color:#800000;' +
               'text-shadow:rgba(0,0,0,0.4) 0 0 6px;',
           href: 'http://www.webglearth.com/upgrade.html'
-        }, 'You need a WebGL-enabled browser to run this application.');
+        }, 'You need a WebGL-enabled browser to run this application.<br/>Please install Google Chrome.');
     goog.dom.append(/** @type {!Element} */ (divEl), upgradeLinkEl);
   };
 
@@ -102,7 +101,7 @@ weapi.App = function(divid, opt_options) {
   goog.dom.append(wrapperEl, canvasEl);
 
 
-  weapi.maps.initStatics();
+  // weapi.maps.initStatics();
 
   /**
    * @type {!goog.Timer}
@@ -124,7 +123,7 @@ weapi.App = function(divid, opt_options) {
 
   /** @type {!Element} */
   var mapcopyrightEl = goog.dom.createDom('div',
-      {style: 'position:absolute;bottom:5px;left:5px;width:75%;font-size:8px;' +
+      {style: 'position:absolute;bottom:30px;left:5px;width:75%;font-size:8px;' +
             'text-align:justify;color:#fff;font-family:Verdana,Arial;' +
             'text-shadow:rgba(0,0,0,0.8) 0 0 4px;'});
 
@@ -135,13 +134,12 @@ weapi.App = function(divid, opt_options) {
       undefined, //infobox
       mapcopyrightEl,
       maplogoEl,
-      (goog.isDefAndNotNull(options['map'])) ?
-          weapi.maps.getMap(options['map']).tp : undefined,
-      goog.dom.createDom('p', null, 'Powered by ',
+      new we.texturing.OSMTileProvider(),
+      goog.dom.createDom('span', null, 'Made with ',
       goog.dom.createDom('a',
-          {href: 'http://www.webglearth.org/', style: 'color:#00f'},
+          {href: 'http://www.webglearth.org/'},
           'WebGL Earth'),
-      '.'),
+      '. Map '),
       options['atmosphere'] === false
       );
 
@@ -208,20 +206,6 @@ weapi.App = function(divid, opt_options) {
 
   this.context.resize();
   this.loopTimer.start();
-};
-
-
-/**
- * DEPRECATED
- * @param {!weapi.maps.MapType} type Type of the map.
- * @param {string=} opt_subtype Optional subtype of the map.
- */
-weapi.App.prototype.setMap = function(type, opt_subtype) {
-  var map = weapi.maps.getMap(type, opt_subtype);
-
-  if (goog.isDefAndNotNull(map)) {
-    this.context.scene.earth.changeTileProvider(map.tp);
-  }
 };
 
 

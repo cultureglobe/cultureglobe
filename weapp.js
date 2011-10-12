@@ -7,7 +7,6 @@ goog.require('goog.string');
 
 goog.require('we.scene.Scene');
 goog.require('weapi.App');
-goog.require('we.texturing.OSMTileProvider');
 
 goog.require('we.ui.markers.AbstractMarker');
 
@@ -42,8 +41,10 @@ goog.inherits(europeana.weapp.Marker, we.ui.markers.AbstractMarker);
 
 /**
  * Display markers from the provided jsondata
+ * @param {!Object} jsondata The Europeana OpenSearch API JSON data
+ * @param {?boolean} merge Merge the new results with existing results?
  */
-europeana.weapp.addMarkers = function(jsondata) {
+europeana.weapp.addMarkers = function(jsondata, merge) {
 	
 	// app.markerManager_.removeMarker(m1key);
 
@@ -82,8 +83,6 @@ europeana.weapp.run = function() {
 	//	1800000, 0.0, 0.6);
 
 	app.context.scene.camera.setTilt(0.5);
-	var osm = new we.texturing.OSMTileProvider();
-	app.context.scene.earth.changeTileProvider(osm);
 	
 	// window.setTimeout('alert(app.context.scene.camera.getPositionDegrees())',2000);
 	// window.setTimeout('alert(app.context.scene.earth.getZoom();)',2000);
