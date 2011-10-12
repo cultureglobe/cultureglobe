@@ -9,8 +9,7 @@ goog.require('goog.net.Jsonp');
 
 goog.require('europeana.weapp');
 
-// var API_KEY = "IAVQBBDOQQ";
-var API_KEY = "IZHBRKKFDW";
+var API_KEY = "IAVQBBDOQQ";
 
 var timer;
 var slider;
@@ -60,7 +59,7 @@ europeana.makeQuery = function() {
 europeana.query = function(term, fromYear, toYear, fromLat, fromLon, toLat, toLon,
 		startPage) {
 	
-	var q = "http://acceptance.europeana.eu/api/opensearch.json?" + "wskey="
+	var q = "http://api.europeana.eu/api/opensearch.json?" + "wskey="
 			+ API_KEY + "&startPage=" + startPage + "&searchTerms=";
 	
 	if (term)
