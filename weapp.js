@@ -6,6 +6,7 @@ goog.require('goog.math');
 goog.require('goog.string');
 
 goog.require('we.scene.Scene');
+goog.require('we.math.geo');
 goog.require('weapi.App');
 
 goog.require('we.ui.markers.AbstractMarker');
@@ -74,6 +75,38 @@ europeana.weapp.addMarkers = function(jsondata, merge) {
 	var m1key = app.markerManager_.addMarker(null, m1);
 	*/
 }
+
+/**
+ * flyToFitBounds
+ * @param {number} minlat
+ * @param {number} maxlat
+ * @param {number} minlon
+ * @param {number} maxlon
+ */
+europeana.weapp.flyToFitBounds = function(minlat, 
+                                          maxlat,
+                                          minlon,
+                                          maxlon) {
+      minlat = goog.math.toRadians(minlat);
+      maxlat = goog.math.toRadians(maxlat);
+      minlon = goog.math.toRadians(minlon);
+      maxlon = goog.math.toRadians(maxlon);
+
+      var altitude = we.math.geo.calcDistanceToViewBounds(minlat, maxlat,
+          minlon, maxlon,
+          app.context.aspectRatio,
+          app.context.fov);
+
+      var center = we.math.geo.calcBoundsCenter(minlat, maxlat, minlon, maxlon);
+
+      var minalt = app.context.scene.earth.calcAltitudeForZoom(
+          app.context.scene.getMaxZoom() + 0.1, center[0]);
+
+
+      app.animator_.flyTo(center[0], center[1], Math.max(altitude*2.0, minalt));
+      // For the purpose of this Europeana demo we multiply the altitude by 2.0
+};
+
 
 /**
  * Run the europeana app.

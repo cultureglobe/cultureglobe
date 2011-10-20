@@ -17,6 +17,21 @@ var searchField;
 var startPage = 1;
 
 europeana.displayResults = function ( data ) {
+	if (startPage == 1) {
+		var minlat = 90;
+		var minlon = 180;
+		var maxlat = -90;
+		var maxlon = -180;
+		goog.array.forEach(data['items'], function(item) {
+			minlat = Math.min(minlat, item['enrichment:place_latitude']);
+			maxlat = Math.max(maxlat, item['enrichment:place_latitude']);
+			minlon = Math.min(minlon, item['enrichment:place_longitude']);
+			maxlon = Math.max(maxlon, item['enrichment:place_longitude']);
+		});
+		europeana.weapp.flyToFitBounds(minlat, maxlat, minlon, maxlon);
+	}
+	
+	
 	europeana.weapp.addMarkers(data, (startPage !== 1));
 	timer = null; 
 	goog.style.showElement( goog.dom.getElement('loading'), false );
@@ -61,10 +76,10 @@ europeana.makeQuery = function( merge ) {
 }
 
 europeana.query = function(term, fromYear, toYear, fromLat, fromLon, toLat, toLon,
-		startPage) {
+		page) {
 	
 	var q = "http://api.europeana.eu/api/opensearch.json?" + "wskey="
-			+ API_KEY + "&startPage=" + startPage + "&searchTerms=";
+			+ API_KEY + "&startPage=" + page + "&searchTerms=";
 	
 	if (term)
 		q += term + "+AND+";
