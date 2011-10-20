@@ -59,7 +59,7 @@ html, body {
 
 #s-h {
 	text-align: center;
-	margin-bottom: 2em;
+	margin-bottom: 5px;
 }
 #s-left {
 	float: left;
@@ -118,13 +118,13 @@ a:hover, a:link, a:visited
 #periods {
 	width:100%;
 	text-align:center;
-	margin:0px auto 20px auto;
+	margin:0px auto 25px auto;
 }
 
 #poweredby {
 	position:absolute;
 	top: 0px; left:0px;
-	z-index:3000;
+	z-index:2000;
 }
 
 a.marker {
@@ -165,9 +165,10 @@ a.marker:hover .makertitle {
 }
 #loading {
 	position:absolute;
-	bottom:55px;
+	top:186px;
 	left:50%;
 	margin: 0 0 0 -16px;
+	z-index:10000;
 }
 
 #klokantechlogo{
@@ -186,7 +187,26 @@ a.marker:hover .makertitle {
 	width:auto;
 	bottom:45px;
 	left:5px;
-	margin:auto 0;
+}
+
+
+.results {
+	position: absolute;
+	display:block;
+	bottom:40px;
+	width:180px;
+	left:50%;
+	margin-left:-90px;
+	z-index: 2000;
+	text-align:center; padding:3px;
+	color: white !important;
+	background: rgb(0, 64, 128); /* The Fallback */
+	background: rgba(0, 64, 128, 0.6);
+	line-height:140%;
+	font-weight:bold;
+}
+#results2 {
+	font-style: italic;
 }
 
 </style>
@@ -285,6 +305,9 @@ a.marker:hover .makertitle {
 	<span class='st_plusone' ></span>
 	<span class='st_email' ></span>
   </div>
+
+  <a id="results1" class="results" href="#">Load more from 2300 results...</a>
+  <div id="results2" class="results">All 12 records loaded.</div>
 
   <a id="klokantechlogo" href="http://www.klokantech.com/">Klokan Technologies</a>
 

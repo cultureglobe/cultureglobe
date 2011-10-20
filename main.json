@@ -7,9 +7,8 @@
   "inputs": "main.js",
   "paths": [
     ".",
-    "we",
-    "api"
+    "we"
   ],
-  "mode": "SIMPLE",
+  "mode": "ADVANCED",
   "level": "DEFAULT" // "VERBOSE"
 }

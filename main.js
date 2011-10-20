@@ -14,9 +14,31 @@ var API_KEY = "IAVQBBDOQQ";
 var timer;
 var slider;
 var searchField;
+var startPage = 1;
 
-europeana.makeQuery = function() {
+europeana.displayResults = function ( data ) {
+	europeana.weapp.addMarkers(data, (startPage !== 1));
+	timer = null; 
+	goog.style.showElement( goog.dom.getElement('loading'), false );
+	if (data['totalResults'] - data['startIndex'] - data['itemsPerPage'] > 0) {
+		goog.style.showElement( goog.dom.getElement('results1'), true );
+		goog.style.showElement( goog.dom.getElement('results2'), false );
+		goog.dom.getElement('results1').innerHTML = "Load more from " + data['totalResults'] + " results...";
+	} else {
+		goog.style.showElement( goog.dom.getElement('results1'), false );
+		goog.style.showElement( goog.dom.getElement('results2'), true );
+		if (data['totalResults'] == 0)
+			goog.dom.getElement('results2').innerHTML = "No records found.";
+		else
+			goog.dom.getElement('results2').innerHTML = "All " + data['totalResults'] + " records loaded.";
+	}
+}
+
+
+europeana.makeQuery = function( merge ) {
 	
+	if (merge !== true) startPage = 1; 
+
 	goog.style.showElement( goog.dom.getElement('loading'), true );
 	
 	// This function is called onChange events and while typing - it makes the throttling well
@@ -26,34 +48,16 @@ europeana.makeQuery = function() {
 		goog.Timer.clear(timer);
 		timer = null;
 	}
- 
-	// Don't proceed with the JSONP query immediatelly, but wait for 500 ms if the user doesn't make a new one.
-	var jsonp = new goog.net.Jsonp(europeana.query(searchField.value, slider.getValue(), (slider.getValue() + slider.getExtent()), 0, -20, 80, 110, 1));
-		
-	timer = goog.Timer.callOnce(function() {
-		jsonp.send({}, function(data) {
-			// console.log(data);
-			europeana.weapp.addMarkers(data);
-			timer = null; 
-			goog.style.showElement( goog.dom.getElement('loading'), false );
-		});
-		/*
-		if (!dragging) {
-    
-		// Remove old results
-    	goog.dom.removeChildren( goog.dom.$('sidecanvas') );
-    	activeRecord = null;
-    
-    	nextIndex = result['next_index'];
 
-    	// Iterate on the JSON and add new results
-    	goog.array.forEach(result['records'], addResult );
-    
-		
-		// Stop the timer
-		timer = null;
-	}*/
-	}, 500);
+	var jsonp = new goog.net.Jsonp(europeana.query(searchField.value, slider.getValue(), (slider.getValue() + slider.getExtent()), 0, -20, 80, 110, startPage));
+	if (startPage == 1) {
+		// Don't proceed with the JSONP query immediatelly, but wait for 500 ms if the user doesn't make a new one.
+		timer = goog.Timer.callOnce(function() { jsonp.send({}, europeana.displayResults)}, 500);
+	} else {
+		// consequent results are immediate
+		jsonp.send({}, europeana.displayResults);
+	}
+ 
 }
 
 europeana.query = function(term, fromYear, toYear, fromLat, fromLon, toLat, toLon,
@@ -73,11 +77,18 @@ europeana.query = function(term, fromYear, toYear, fromLat, fromLon, toLat, toLo
 			+ "-01-01T23%3A59%3A59Z]" + "enrichment_place_latitude%3A["
 			+ fromLat + "+TO+" + toLat + "]+AND+"
 			+ "enrichment_place_longitude%3A[" + fromLon + "+TO+" + toLon + "]";
-	
+			
 	return q;
 }
 
 europeana.main = function() {
+	
+	// Hide the loading indicator
+	goog.style.showElement( goog.dom.getElement('loading'), false );
+	goog.style.showElement( goog.dom.getElement('results1'), false );
+	goog.style.showElement( goog.dom.getElement('results2'), false );
+	
+	// Initialize controls
 	var el = document.getElementById('s1');
 	slider = new goog.ui.TwoThumbSlider;
 	slider.decorate(el);
@@ -102,7 +113,7 @@ europeana.main = function() {
 		europeana.makeQuery();
 	});
 	
- 	goog.events.listen(goog.dom.getElement('period'), goog.ui.Component.EventType.CHANGE, function() {
+	goog.events.listen(goog.dom.getElement('period'), goog.ui.Component.EventType.CHANGE, function() {
 		var period = goog.dom.getElement('period').value;
 		var period_start = period.replace(/.*\(/g, '');
 		period_start = period_start.replace(/-.*/g, '');
@@ -119,9 +130,13 @@ europeana.main = function() {
 	});
 	// Initialize the WebGL Earth
 	europeana.weapp.run();
+	
+	goog.events.listen(goog.dom.getElement('results1'), goog.events.EventType.CLICK, function(e) {
+		e.preventDefault();
+		startPage++;
+		europeana.makeQuery(true);
+	});
 
-	// Hide the loading indicator
-	goog.style.showElement( goog.dom.getElement('loading'), false );
 }
 
 window['main'] = europeana.main;

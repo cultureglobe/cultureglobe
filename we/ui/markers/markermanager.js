@@ -87,6 +87,13 @@ we.ui.markers.MarkerManager.prototype.getMarker = function(key) {
   return /** @type {we.ui.markers.AbstractMarker}*/ (this.markerMap_.get(key));
 };
 
+/**
+ * Removes all markers it controls.
+ */
+we.ui.markers.MarkerManager.prototype.removeMarkers = function() {
+  goog.array.forEach(this.markerMap_.getKeys(), this.removeMarker, this);
+};
+
 
 /**
  * Removes marker, does NOT dispose of it.

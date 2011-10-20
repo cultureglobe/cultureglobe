@@ -46,11 +46,15 @@ goog.inherits(europeana.weapp.Marker, we.ui.markers.AbstractMarker);
  */
 europeana.weapp.addMarkers = function(jsondata, merge) {
 	
-	// app.markerManager_.removeMarker(m1key);
+	if (merge !== true)
+		app.markerManager_.removeMarkers();
 
 	// Iterate on the JSON and add new results
 	goog.array.forEach(jsondata['items'], function(item) {
-		// app.markerManager_.removeMarker(m1key);
+		
+		// Skip items without thumbnail
+		if (!item['enclosure']) return;
+
 		var m1 = new europeana.weapp.Marker(
 			item['enrichment:place_latitude'],
 			item['enrichment:place_longitude'],
