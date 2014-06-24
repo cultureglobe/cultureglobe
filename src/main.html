@@ -1,112 +1,107 @@
 <html>
   <head>
-  <title>Culture Globe - CultureGlobe.github.io</title>
-  <link rel="stylesheet" href="../deploy/index.css" media="all" />
-  <script src="http://localhost:9810/compile?id=main"></script>
+    <title>Culture Globe - CultureGlobe.github.io</title>
+    <link rel="stylesheet" href="../deploy/index.css" media="all" />
+    <script src="http://www.webglearth.com/v2/api.js"></script>
+    <script src="http://localhost:9810/compile?id=main-debug"></script>
   </head>
-  <body>
+  <body onload="javascript:Main();">
 
   <div id="header">
-  <a href="http://github.com/cultureglobe"><img style="position:absolute;top:0;right:0;border:0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
-  <h2>Culture Globe - Hackathon Prototype</h2>
+    <a href="http://github.com/cultureglobe"><img style="position:absolute;top:0;right:0;border:0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <h2>Culture Globe - Hackathon Prototype</h2>
     <div id="s-i">
       <form action="#" method="post" onsubmit="return false;">
         <input type="search" placeholder="Search Europeana..." id="q" name="q" autocomplete="off" x-webkit-speech speech>
       </form>
     </div>
     <div id="s-h">
-    <div id="s-left">
+      <div id="s-left"></div>
+      <div id="s-right">
+        <div id="s1" class="goog-twothumbslider">
+          <!-- this line is here just to show that custom content can be added -->
+          <div style="position:absolute;width:100%;top:9px;overflow:hidden;height:0"></div>
+          <div class="goog-twothumbslider-value-thumb"></div>
+          <div class="goog-twothumbslider-extent-thumb"></div>
+        </div>
       </div>
-    <div id="s-right">
-      <div id="s1" class="goog-twothumbslider" style="width: 540px; height: 59px; margin: 0 auto; background-image:url(data/slider-img.png);">
-        <!-- this line is here just to show that custom content can be added -->
-        <div style="position:absolute;width:100%;top:9px;overflow:hidden;height:0"></div>
-        <div class="goog-twothumbslider-value-thumb"></div>
-        <div class="goog-twothumbslider-extent-thumb"></div>
-      </div>
-  </div>
       <label>
         <span id="out1">&nbsp;</span>
       </label>
-  </div>
-  
+    </div>
     <div id="periods">
       <select id='period' name='period'>
-      <option value="" selected>... or choose a period</option>
-      <option value="Deconstructivism (1982-2010)">Deconstructivism (1982-2010)</option>
-      <option value="Memphis Group (1981-1988)">Memphis Group (1981-1988)</option>
-      <option value="High-tech architecture (1971-2010)">High-tech architecture (1971-2010)</option>
-      <option value="Brutalist architecture (1950-1970)">Brutalist architecture (1950-1970)</option>
-      <option value="Usonian (1936-1940)">Usonian (1936-1940)</option>
-      <option value="Nazi architecture (1936-1945)">Nazi architecture (1936-1945)</option>
-      <option value="Stalinist architecture (1933-1955)">Stalinist architecture (1933-1955)</option>
-      <option value="Streamline Moderne (1930-1937)">Streamline Moderne (1930-1937)</option>
-      <option value="International style architecture (1927-1970)">International style architecture (1927-1970)</option>
-      <option value="Art Deco (1925-1940)">Art Deco (1925-1940)</option>
-      <option value="Fascist architecture (1925-1936)">Fascist architecture (1925-1936)</option>
-      <option value="Mediterranean Revival (1920-1930)">Mediterranean Revival (1920-1930)</option>
-      <option value="Bauhaus (1919-1930)">Bauhaus (1919-1930)</option>
-      <option value="Spanish Colonial Revival (1915-1931)">Spanish Colonial Revival (1915-1931)</option>
-      <option value="Constructivist architecture (1914-1920)">Constructivist architecture (1914-1920)</option>
-      <option value="Modern architecture (1914-1960)">Modern architecture (1914-1960)</option>
-      <option value="Amsterdam School (1912-1924)">Amsterdam School (1912-1924)</option>
-      <option value="Expressionist architecture (1910-1924)">Expressionist architecture (1910-1924)</option>
-      <option value="Prairie Style (1900-1917)">Prairie Style (1900-1917)</option>
-      <option value="Garden city movement (1898-1968)">Garden city movement (1898-1968)</option>
-      <option value="Pueblo Style (1898-1990)">Pueblo Style (1898-1990)</option>
-      <option value="Mission Revival Style architecture (1894-1936)">Mission Revival Style architecture (1894-1936)</option>
-      <option value="Colonial Revival architecture (1890-2011)">Colonial Revival architecture (1890-2011)</option>
-      <option value="City Beautiful movement (1890-1900)">City Beautiful movement (1890-1900)</option>
-      <option value="American Craftsman (1890-1930)">American Craftsman (1890-1930)</option>
-      <option value="Art nouveau (1895-1926)" >Art nouveau (1895-1926)</option>
-      <option value="Jugendstil (1888-1911)">Jugendstil (1888-1911)</option>
-      <option value="Modernisme (1888-1911)">Modernisme (1888-1911)</option>
-      <option value="American Renaissance (1880-1914)">American Renaissance (1880-1914)</option>
-      <option value="Chicago school (architecture) (1880-1890)">Chicago school (architecture) (1880-1890)</option>
-      <option value="Shingle Style (1879-1905)">Shingle Style (1879-1905)</option>
-      <option value="National Park Service Rustic (1872-1916)">National Park Service Rustic (1872-1916)</option>
-      <option value="Queen Anne Style architecture (1870-1910)">Queen Anne Style architecture (1870-1910)</option>
-      <option value="Second Empire (architecture) (1865-1880)">Second Empire (architecture) (1865-1880)</option>
-      <option value="Swiss chalet style (1850-1900)">Swiss chalet style (1850-1900)</option>
-      <option value="Neo-Grec (1848-1865)">Neo-Grec (1848-1865)</option>
-      <option value="Egyptian Revival architecture (1840-1850)">Egyptian Revival architecture (1840-1850)</option>
-      <option value="Queenslander (architecture) (1840-1960)">Queenslander (architecture) (1840-1960)</option>
-      <option value="Romanesque Revival architecture (1840-1900)">Romanesque Revival architecture (1840-1900)</option>
-      <option value="Tudorbethan architecture (1835-1885)">Tudorbethan architecture (1835-1885)</option>
-      <option value="Biedermeier (1815-1848)">Biedermeier (1815-1848)</option>
-      <option value="Moorish Revival (1812-1920)">Moorish Revival (1812-1920)</option>
-      <option value="Egyptian Revival architecture (1809-1820)">Egyptian Revival architecture (1809-1820)</option>
-      <option value="Empire (style) (1804-1814)">Empire (style) (1804-1814)</option>
-      <option value="Gothic Revival architecture (1760-1840)">Gothic Revival architecture (1760-1840)</option>
-      <option value="Neoclassical architecture (1760-1780)">Neoclassical architecture (1760-1780)</option>
-      <option value="Georgian architecture (1720-1760)">Georgian architecture (1720-1760)</option>
-    </select>
+        <option value="" selected>... or choose a period</option>
+        <option value="Deconstructivism (1982-2010)">Deconstructivism (1982-2010)</option>
+        <option value="Memphis Group (1981-1988)">Memphis Group (1981-1988)</option>
+        <option value="High-tech architecture (1971-2010)">High-tech architecture (1971-2010)</option>
+        <option value="Brutalist architecture (1950-1970)">Brutalist architecture (1950-1970)</option>
+        <option value="Usonian (1936-1940)">Usonian (1936-1940)</option>
+        <option value="Nazi architecture (1936-1945)">Nazi architecture (1936-1945)</option>
+        <option value="Stalinist architecture (1933-1955)">Stalinist architecture (1933-1955)</option>
+        <option value="Streamline Moderne (1930-1937)">Streamline Moderne (1930-1937)</option>
+        <option value="International style architecture (1927-1970)">International style architecture (1927-1970)</option>
+        <option value="Art Deco (1925-1940)">Art Deco (1925-1940)</option>
+        <option value="Fascist architecture (1925-1936)">Fascist architecture (1925-1936)</option>
+        <option value="Mediterranean Revival (1920-1930)">Mediterranean Revival (1920-1930)</option>
+        <option value="Bauhaus (1919-1930)">Bauhaus (1919-1930)</option>
+        <option value="Spanish Colonial Revival (1915-1931)">Spanish Colonial Revival (1915-1931)</option>
+        <option value="Constructivist architecture (1914-1920)">Constructivist architecture (1914-1920)</option>
+        <option value="Modern architecture (1914-1960)">Modern architecture (1914-1960)</option>
+        <option value="Amsterdam School (1912-1924)">Amsterdam School (1912-1924)</option>
+        <option value="Expressionist architecture (1910-1924)">Expressionist architecture (1910-1924)</option>
+        <option value="Prairie Style (1900-1917)">Prairie Style (1900-1917)</option>
+        <option value="Garden city movement (1898-1968)">Garden city movement (1898-1968)</option>
+        <option value="Pueblo Style (1898-1990)">Pueblo Style (1898-1990)</option>
+        <option value="Mission Revival Style architecture (1894-1936)">Mission Revival Style architecture (1894-1936)</option>
+        <option value="Colonial Revival architecture (1890-2011)">Colonial Revival architecture (1890-2011)</option>
+        <option value="City Beautiful movement (1890-1900)">City Beautiful movement (1890-1900)</option>
+        <option value="American Craftsman (1890-1930)">American Craftsman (1890-1930)</option>
+        <option value="Art nouveau (1895-1926)" >Art nouveau (1895-1926)</option>
+        <option value="Jugendstil (1888-1911)">Jugendstil (1888-1911)</option>
+        <option value="Modernisme (1888-1911)">Modernisme (1888-1911)</option>
+        <option value="American Renaissance (1880-1914)">American Renaissance (1880-1914)</option>
+        <option value="Chicago school (architecture) (1880-1890)">Chicago school (architecture) (1880-1890)</option>
+        <option value="Shingle Style (1879-1905)">Shingle Style (1879-1905)</option>
+        <option value="National Park Service Rustic (1872-1916)">National Park Service Rustic (1872-1916)</option>
+        <option value="Queen Anne Style architecture (1870-1910)">Queen Anne Style architecture (1870-1910)</option>
+        <option value="Second Empire (architecture) (1865-1880)">Second Empire (architecture) (1865-1880)</option>
+        <option value="Swiss chalet style (1850-1900)">Swiss chalet style (1850-1900)</option>
+        <option value="Neo-Grec (1848-1865)">Neo-Grec (1848-1865)</option>
+        <option value="Egyptian Revival architecture (1840-1850)">Egyptian Revival architecture (1840-1850)</option>
+        <option value="Queenslander (architecture) (1840-1960)">Queenslander (architecture) (1840-1960)</option>
+        <option value="Romanesque Revival architecture (1840-1900)">Romanesque Revival architecture (1840-1900)</option>
+        <option value="Tudorbethan architecture (1835-1885)">Tudorbethan architecture (1835-1885)</option>
+        <option value="Biedermeier (1815-1848)">Biedermeier (1815-1848)</option>
+        <option value="Moorish Revival (1812-1920)">Moorish Revival (1812-1920)</option>
+        <option value="Egyptian Revival architecture (1809-1820)">Egyptian Revival architecture (1809-1820)</option>
+        <option value="Empire (style) (1804-1814)">Empire (style) (1804-1814)</option>
+        <option value="Gothic Revival architecture (1760-1840)">Gothic Revival architecture (1760-1840)</option>
+        <option value="Neoclassical architecture (1760-1780)">Neoclassical architecture (1760-1780)</option>
+        <option value="Georgian architecture (1720-1760)">Georgian architecture (1720-1760)</option>
+      </select>
     </div>
   </div>
 
   <div id="earth"></div>
-
-  <a id="poweredby" href="http://www.europeana.eu/"><img src="data/poweredby-white.png" alt="Powered by Europeana"></a>
-
-  <div id="loading"><img src="data/ajax-loader.gif" alt="Loading.."></div>
-
+  <a id="poweredby" href="http://www.europeana.eu/"></a>
+  <div id="loading"></div>
   <div id="social">
-  <span class='st_twitter' ></span>
-  <span class='st_facebook' ></span>
-  <span class='st_plusone' ></span>
-  <span class='st_email' ></span>
+    <span class='st_twitter' ></span>
+    <span class='st_facebook' ></span>
+    <span class='st_plusone' ></span>
+    <span class='st_email' ></span>
   </div>
-
   <a id="results1" class="results" href="#">Load more from 2300 results...</a>
   <div id="results2" class="results">All 12 records loaded.</div>
-
   <a id="klokantechlogo" href="http://www.klokantech.com/">Klokan Technologies</a>
 
   <div id="footer">Developed by Petr Pridal (<a href="http://www.klokantech.com/">Klokan Technologies</a>), Rainer Simon (<a href="http://www.ait.ac.at">Austrian Institute of Technology</a>), Anja Jentzsch (<a href="http://www.wbsg.de">Freie Universit&auml;t Berlin</a>), Ulrike Krabo (<a href="http://www.obvsg.at">Austrian Library Network and Service Ldt.</a>), Elaheh Momeni (<a href="http://cs.univie.ac.at/">University of Vienna - Faculty of Computer Science</a>) during EuropeanaTech Hackathon in Vienna</div>
 
-  <script type="text/javascript">main();</script>
+  <!--
   <script type="text/javascript">var switchTo5x=false;</script>
   <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
   <script type="text/javascript">stLight.options({ publisher:'c86e7495-cfd9-41f5-a486-bd6940531807', });</script>
+  -->
   </body>
 </html>

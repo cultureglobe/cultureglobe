@@ -1,15 +1,24 @@
-goog.provide('europeana.main');
+/**
+ *
+ * @author petr.sloup@klokantech.com (Petr Sloup)
+ * @author petr.pridal@klokantech.com (Petr Pridal)
+ *
+ * Copyright 2014 Klokan Technologies Gmbh (www.klokantech.com)
+ */
 
-goog.require('goog.ui.Component');
+goog.provide('cultureglobe.Main');
+
 goog.require('goog.ui.TwoThumbSlider');
 goog.require('goog.dom');
 goog.require('goog.style');
 goog.require('goog.events');
 goog.require('goog.net.Jsonp');
 
-goog.require('europeana.weapp');
+/*
+goog.require('goog.ui.Component');
 
-var API_KEY = "IAVQBBDOQQ";
+//goog.require('europeana.weapp');
+
 
 var timer;
 var slider;
@@ -95,63 +104,95 @@ europeana.query = function(term, fromYear, toYear, fromLat, fromLon, toLat, toLo
 			
 	return q;
 }
+*/
 
-europeana.main = function() {
-	
-	// Hide the loading indicator
-	goog.style.showElement( goog.dom.getElement('loading'), false );
-	goog.style.showElement( goog.dom.getElement('results1'), false );
-	goog.style.showElement( goog.dom.getElement('results2'), false );
-	
-	// Initialize controls
-	var el = document.getElementById('s1');
-	slider = new goog.ui.TwoThumbSlider;
-	slider.decorate(el);
-	slider.setMinimum(1750);
-	slider.setMaximum(2010);
-	slider.setExtent(260);
-	slider.setStep(5);
-	slider.setMoveToPointEnabled(true);
-	slider.addEventListener(goog.ui.Component.EventType.CHANGE, function() {
-		document.getElementById('out1').innerHTML = 'start: ' + slider.getValue()
-				+ ' end: ' + (slider.getValue() + slider.getExtent());
-	});
-	
-	goog.events.listen(slider, goog.ui.Component.EventType.CHANGE, function() { 
-		europeana.makeQuery();
-	});
-	
-	searchField = document.getElementById('q');
-	goog.events.listen(searchField, goog.ui.Component.EventType.CHANGE, function() {
-		// var jsonp = new goog.net.Jsonp(europeana.query(searchField.value, s.getValue(), (s.getValue() + s.getExtent()), 0, -20, 80, 110, 1));
-		// jsonp.send({}, function(data) { console.log(data); });
-		europeana.makeQuery();
-	});
-	
-	goog.events.listen(goog.dom.getElement('period'), goog.ui.Component.EventType.CHANGE, function() {
-		var period = goog.dom.getElement('period').value;
-		var period_start = period.replace(/.*\(/g, '');
-		period_start = period_start.replace(/-.*/g, '');
-		var period_end = period.replace(/\)/g, '');
-		period_end = period_end.replace(/.*-/g, '');
-		if (parseInt(period_start) < 1750) {
-			period_start = 1750;
-		}
-		if (parseInt(period_end) > 2010) {
-			period_end = 2010;
-		}
-		slider.setValue(parseInt(period_start));
-		slider.setExtent(parseInt(period_end)-parseInt(period_start));
-	});
-	// Initialize the WebGL Earth
-	europeana.weapp.run();
-	
-	goog.events.listen(goog.dom.getElement('results1'), goog.events.EventType.CLICK, function(e) {
-		e.preventDefault();
-		startPage++;
-		europeana.makeQuery(true);
-	});
 
-}
+/**
+ * @define {string} Europeana API key
+ */
+cultureglobe.API_KEY = "ymDLchp8i";
 
-window['main'] = europeana.main;
+
+
+/**
+ * @constructor
+ */
+cultureglobe.Main = function() {
+  this.loadingEl = goog.dom.getElement('loading');
+  this.results1El = goog.dom.getElement('results1');
+  this.results2El = goog.dom.getElement('results2');
+  this.sliderEl = goog.dom.getElement('s1');
+  this.out1El = goog.dom.getElement('out1');
+  this.qEl = goog.dom.getElement('q');
+  this.periodEl = goog.dom.getElement('period');
+  
+  goog.style.setElementShown(this.loadingEl, false);
+  goog.style.setElementShown(this.results1El, false);
+  goog.style.setElementShown(this.results2El, false);
+  
+  this.slider = new goog.ui.TwoThumbSlider();
+  this.slider.decorate(this.sliderEl);
+  this.slider.setMinimum(1750);
+  this.slider.setMaximum(2010);
+  this.slider.setExtent(260);
+  this.slider.setStep(5);
+  this.slider.setMoveToPointEnabled(true);
+
+  this.we = new window['WebGLEarth']('earth', {
+    //'proxyHost': 'http://srtm.webglearth.com/cgi-bin/corsproxy.fcgi?url=',
+    'sky': false,
+    'position': [47.2, 8.5],
+    'altitude': 7000000
+  });
+
+  var mapM = this.we['initMap'](window['WebGLEarth']['Maps']['MAPQUEST']);
+  this.we['setBaseMap'](mapM);
+};
+
+
+
+// europeana.main = function() {
+
+	// slider.addEventListener(goog.ui.Component.EventType.CHANGE, function() {
+		// document.getElementById('out1').innerHTML = 'start: ' + slider.getValue()
+				// + ' end: ' + (slider.getValue() + slider.getExtent());
+	// });
+	
+	// goog.events.listen(slider, goog.ui.Component.EventType.CHANGE, function() { 
+		// europeana.makeQuery();
+	// });
+	
+	// searchField = document.getElementById('q');
+	// goog.events.listen(searchField, goog.ui.Component.EventType.CHANGE, function() {
+		// // var jsonp = new goog.net.Jsonp(europeana.query(searchField.value, s.getValue(), (s.getValue() + s.getExtent()), 0, -20, 80, 110, 1));
+		// // jsonp.send({}, function(data) { console.log(data); });
+		// europeana.makeQuery();
+	// });
+	
+	// goog.events.listen(goog.dom.getElement('period'), goog.ui.Component.EventType.CHANGE, function() {
+		// var period = goog.dom.getElement('period').value;
+		// var period_start = period.replace(/.*\(/g, '');
+		// period_start = period_start.replace(/-.*/g, '');
+		// var period_end = period.replace(/\)/g, '');
+		// period_end = period_end.replace(/.*-/g, '');
+		// if (parseInt(period_start) < 1750) {
+			// period_start = 1750;
+		// }
+		// if (parseInt(period_end) > 2010) {
+			// period_end = 2010;
+		// }
+		// slider.setValue(parseInt(period_start));
+		// slider.setExtent(parseInt(period_end)-parseInt(period_start));
+	// });
+	// // Initialize the WebGL Earth
+	// //europeana.weapp.run();
+	
+	// goog.events.listen(goog.dom.getElement('results1'), goog.events.EventType.CLICK, function(e) {
+		// e.preventDefault();
+		// startPage++;
+		// europeana.makeQuery(true);
+	// });
+
+// }
+
+goog.exportSymbol('Main', cultureglobe.Main);

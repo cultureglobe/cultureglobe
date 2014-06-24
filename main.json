@@ -2,7 +2,7 @@
   "id": "main",
 
   "inputs": "src/main.js",
-  "paths": ["src"],
+  // "paths": ["src"],
 
   "define": {
     "goog.DEBUG": false

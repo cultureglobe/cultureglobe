@@ -10,6 +10,13 @@ html, body {
   user-select: none;
 }
 
+.plovr-error-report {
+  position: absolute;
+  top: 0;
+  color: #fff;
+  z-index:3000;
+}
+
 .goog-twothumbslider-vertical,.goog-twothumbslider-horizontal {
   position: relative;
   overflow: hidden;
@@ -40,12 +47,8 @@ html, body {
   height: 100%;
 }
 
-.plovr-error-report {
-  position: absolute;
-  top: 0;
-  color: #fff;
-  z-index:3000;
-}
+#s1 {width:540px;height:59px;margin:0 auto;background-image:url(slider-img.png);}
+
 #s-i {
   text-align: center;
   margin:1em;
@@ -115,11 +118,7 @@ a:hover, a:link, a:visited
   margin:0px auto 25px auto;
 }
 
-#poweredby {
-  position:absolute;
-  top: 0px; left:0px;
-  z-index:2000;
-}
+#poweredby {position:absolute;top:0;left:0;width:203px;height:61px;background:url('poweredby-white.png');z-index:2000;}
 
 a.marker {
   position:absolute;
@@ -157,13 +156,7 @@ a.marker:hover .makertitle {
   text-decoration: none;
   display: inline-block;
 }
-#loading {
-  position:absolute;
-  top:186px;
-  left:50%;
-  margin: 0 0 0 -16px;
-  z-index:10000;
-}
+#loading {position:absolute;top:186px;left:50%;width:16px;height:11px;background:url('ajax-loader.gif');margin:0 0 0 -16px;z-index:10000;}
 
 #klokantechlogo{
   position:absolute;
@@ -173,7 +166,7 @@ a.marker:hover .makertitle {
   height:64px;
   background-repeat:no-repeat;
   background-position:center center;
-  background-image:url(data/klokantechlogo.png);
+  background-image:url(klokantechlogo.png);
 }
 
 #social {
