@@ -137,7 +137,7 @@ cultureglobe.Main.prototype.makeQuery = function(opt_merge) {
       maxYear = minYear + this.slider.getExtent(),
       minLat = 0, minLon = -20, maxLat = 80, maxLon = 110;
 
-  var q = '&query=europeana_type:*IMAGE*';
+  var q = '&profile=minimal&query=europeana_type:*IMAGE*';
   if (this.inputEl.value) q += '+AND+' + this.inputEl.value;
   q += '&qf=YEAR:[' + minYear + '+TO+' + maxYear + ']' +
        '&qf=pl_wgs84_pos_lat:[' + minLat + '+TO+' + maxLat + ']' +
@@ -145,7 +145,7 @@ cultureglobe.Main.prototype.makeQuery = function(opt_merge) {
 
   this.payload = '?wskey=' + cultureglobe.EUROPEANA_API_KEY + q +
       '&start=' + (this.startPage * cultureglobe.DATA_PAGE_LENGTH + 1);
-  window['console']['log'](this.payload);
+  //window['console']['log'](this.payload);
 
   if (this.startPage == 0) {
     // Don't proceed with the JSONP query immediatelly,
@@ -162,22 +162,26 @@ cultureglobe.Main.prototype.makeQuery = function(opt_merge) {
  * @param {!Object.<string, *>} data
  */
 cultureglobe.Main.prototype.displayResults = function(data) {
-  window['console']['log'](data);
-  /*
-  if (this.startPage == 0) {
-    var minlat = 90;
-    var minlon = 180;
-    var maxlat = -90;
-    var maxlon = -180;
-    goog.array.forEach(data['items'], function(item) {
-      minlat = Math.min(minlat, item['enrichment:place_latitude']);
-      maxlat = Math.max(maxlat, item['enrichment:place_latitude']);
-      minlon = Math.min(minlon, item['enrichment:place_longitude']);
-      maxlon = Math.max(maxlon, item['enrichment:place_longitude']);
+  //window['console']['log'](data);
+
+  var items = /** @type {?Array.<Object>} */(data['items']);
+
+  if (this.startPage == 0 && items) {
+    var minlat = 90, minlon = 180, maxlat = -90, maxlon = -180;
+    goog.array.forEach(items, function(item) {
+      var lat = item['edmPlaceLatitude'], lon = item['edmPlaceLongitude'];
+      if (lat && lon) {
+        lat = parseFloat(lat[lat.length - 1]);
+        lon = parseFloat(lon[lon.length - 1]);
+        minlat = Math.min(minlat, lat);
+        maxlat = Math.max(maxlat, lat);
+        minlon = Math.min(minlon, lon);
+        maxlon = Math.max(maxlon, lon);
+      }
     });
-    europeana.weapp.flyToFitBounds(minlat, maxlat, minlon, maxlon);
+    this.we['flyToFitBounds'](minlat, maxlat, minlon, maxlon);
   }
-  */
+
   //europeana.weapp.addMarkers(data, (this.startPage > 0));
 
   this.timer = null;
@@ -197,8 +201,6 @@ cultureglobe.Main.prototype.displayResults = function(data) {
       this.results2El.innerHTML =
           'All ' + data['totalResults'] + ' records loaded.';
   }
-
 };
-
 
 goog.exportSymbol('Main', cultureglobe.Main);
