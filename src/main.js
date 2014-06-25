@@ -27,6 +27,12 @@ cultureglobe.EUROPEANA_API_URL = 'http://www.europeana.eu/api/v2/search.json';
 cultureglobe.EUROPEANA_API_KEY = 'ymDLchp8i';
 
 
+/**
+ * @define {number} Number of records to load per each request.
+ */
+cultureglobe.DATA_PAGE_LENGTH = 12;
+
+
 
 /**
  * @constructor
@@ -62,9 +68,9 @@ cultureglobe.Main = function() {
   var mapM = this.we['initMap'](window['WebGLEarth']['Maps']['MAPQUEST']);
   this.we['setBaseMap'](mapM);
 
-  this.startPage = 1;
+  this.startPage = 0;
   this.timer = null;
-  this.payload = {};
+  this.payload = '';
 
   this.initListeners_();
 };
@@ -74,47 +80,34 @@ cultureglobe.Main = function() {
  * @private
  */
 cultureglobe.Main.prototype.initListeners_ = function() {
-  /*
-  slider.addEventListener(goog.ui.Component.EventType.CHANGE, function() {
-    document.getElementById('out1').innerHTML = 'start: ' + slider.getValue()
-        + ' end: ' + (slider.getValue() + slider.getExtent());
-  });
-
-  goog.events.listen(slider, goog.ui.Component.EventType.CHANGE, function() {
-    this.makeQuery();
-  });
-  */
+  goog.events.listen(this.slider, goog.events.EventType.CHANGE,
+      function(e) {
+        this.out1El.innerHTML = 'start: ' + this.slider.getValue() + ' end: ' +
+            (this.slider.getValue() + this.slider.getExtent());
+        this.makeQuery();
+      }, false, this);
 
   goog.events.listen(this.inputEl, goog.events.EventType.CHANGE, function(e) {
     this.makeQuery();
   }, false, this);
 
+  goog.events.listen(this.periodEl, goog.events.EventType.CHANGE, function(e) {
+    var p = this.periodEl.value;
+    var period_start = parseInt(p.replace(/.*\(/g, '').replace(/-.*/g, ''), 10);
+    period_start = goog.math.clamp(period_start, 1750, 2010);
+    var period_end = parseInt(p.replace(/\)/g, '').replace(/.*-/g, ''), 10);
+    period_end = goog.math.clamp(period_end, 1750, 2010);
 
-  //goog.events.listen(this.periodEl, goog.ui.Component.EventType.CHANGE,
-  //    function() {
-  //  var period = goog.dom.getElement('period').value;
-  //  var period_start = period.replace(/.*\(/g, '');
-  //  period_start = period_start.replace(/-.*/g, '');
-  //  var period_end = period.replace(/\)/g, '');
-  //  period_end = period_end.replace(/.*-/g, '');
-  //  if (parseInt(period_start) < 1750) {
-  //    period_start = 1750;
-  //  }
-  //  if (parseInt(period_end) > 2010) {
-  //    period_end = 2010;
-  //  }
-  //  slider.setValue(parseInt(period_start));
-  //  slider.setExtent(parseInt(period_end)-parseInt(period_start));
-  //});
+    this.slider.setValue(period_start);
+    this.slider.setExtent(period_end - period_start);
+  }, false, this);
 
-  /*
-  goog.events.listen(goog.dom.getElement('results1'),
-      goog.events.EventType.CLICK, function(e) {
-    e.preventDefault();
-    startPage++;
+  goog.events.listen(this.results1El, goog.events.EventType.CLICK, function(e) {
+    this.startPage++;
     this.makeQuery(true);
-  });
-  */
+    e.preventDefault();
+    e.stopPropagation();
+  }, false, this);
 };
 
 
@@ -122,7 +115,7 @@ cultureglobe.Main.prototype.initListeners_ = function() {
  * @param {boolean=} opt_merge
  */
 cultureglobe.Main.prototype.makeQuery = function(opt_merge) {
-  if (opt_merge !== true) this.startPage = 1;
+  if (opt_merge !== true) this.startPage = 0;
 
   goog.style.setElementShown(this.loadingEl, true);
 
@@ -135,29 +128,26 @@ cultureglobe.Main.prototype.makeQuery = function(opt_merge) {
   }
 
   var doQuery = goog.bind(function() {
-    var jsonp = new goog.net.Jsonp(cultureglobe.EUROPEANA_API_URL);
-    jsonp.send(this.payload, goog.bind(this.displayResults, this));
+    var jsonp = new goog.net.Jsonp(
+        cultureglobe.EUROPEANA_API_URL + this.payload);
+    jsonp.send({}, goog.bind(this.displayResults, this));
   }, this);
 
   var minYear = this.slider.getValue(),
       maxYear = minYear + this.slider.getExtent(),
       minLat = 0, minLon = -20, maxLat = 80, maxLon = 110;
 
-  var pl = {};
-  pl['wskey'] = cultureglobe.EUROPEANA_API_KEY;
-  pl['startPage'] = this.startPage;
-  var q = 'europeana_type:*IMAGE*+AND+';
-  if (this.inputEl.value) q += this.inputEl.value + '+AND+';
-  q += 'enrichment_period_begin:[' +
-       minYear + '-01-01T00:00:00Z+TO+' + maxYear + '-01-01T23:59:59Z]+AND+' +
-       'enrichment_period_end:[' +
-       minYear + '-01-01T00:00:00Z+TO+' + maxYear + '-01-01T23:59:59Z]+AND+' +
-       'pl_wgs84_pos_lat:[' + minLat + '+TO+' + maxLat + ']+AND+' +
-       'pl_wgs84_pos_long:[' + minLon + '+TO+' + maxLon + ']';
-  pl['query'] = q;
-  this.payload = pl;
+  var q = '&query=europeana_type:*IMAGE*';
+  if (this.inputEl.value) q += '+AND+' + this.inputEl.value;
+  q += '&qf=YEAR:[' + minYear + '+TO+' + maxYear + ']' +
+       '&qf=pl_wgs84_pos_lat:[' + minLat + '+TO+' + maxLat + ']' +
+       '&qf=pl_wgs84_pos_long:[' + minLon + '+TO+' + maxLon + ']';
 
-  if (this.startPage == 1) {
+  this.payload = '?wskey=' + cultureglobe.EUROPEANA_API_KEY + q +
+      '&start=' + (this.startPage * cultureglobe.DATA_PAGE_LENGTH + 1);
+  window['console']['log'](this.payload);
+
+  if (this.startPage == 0) {
     // Don't proceed with the JSONP query immediatelly,
     // but wait for 500 ms if the user doesn't make a new one.
     this.timer = goog.Timer.callOnce(doQuery, 500, this);
@@ -174,7 +164,7 @@ cultureglobe.Main.prototype.makeQuery = function(opt_merge) {
 cultureglobe.Main.prototype.displayResults = function(data) {
   window['console']['log'](data);
   /*
-  if (this.startPage == 1) {
+  if (this.startPage == 0) {
     var minlat = 90;
     var minlon = 180;
     var maxlat = -90;
@@ -187,25 +177,27 @@ cultureglobe.Main.prototype.displayResults = function(data) {
     });
     europeana.weapp.flyToFitBounds(minlat, maxlat, minlon, maxlon);
   }
-
-  europeana.weapp.addMarkers(data, (startPage !== 1));
-  timer = null;
-  goog.style.showElement( goog.dom.getElement('loading'), false );
-  if (data['totalResults'] - data['startIndex'] - data['itemsPerPage'] > 0) {
-    goog.style.showElement( goog.dom.getElement('results1'), true );
-    goog.style.showElement( goog.dom.getElement('results2'), false );
-    goog.dom.getElement('results1').innerHTML =
-        "Load more from " + data['totalResults'] + " results...";
-  } else {
-    goog.style.showElement( goog.dom.getElement('results1'), false );
-    goog.style.showElement( goog.dom.getElement('results2'), true );
-    if (data['totalResults'] == 0)
-      goog.dom.getElement('results2').innerHTML = "No records found.";
-    else
-      goog.dom.getElement('results2').innerHTML =
-          "All " + data['totalResults'] + " records loaded.";
-  }
   */
+  //europeana.weapp.addMarkers(data, (this.startPage > 0));
+
+  this.timer = null;
+  goog.style.setElementShown(this.loadingEl, false);
+  if (/** @type {number} */(data['totalResults']) -
+      (this.startPage + 1) * cultureglobe.DATA_PAGE_LENGTH > 0) {
+    goog.style.setElementShown(this.results1El, true);
+    goog.style.setElementShown(this.results2El, false);
+    this.results1El.innerHTML =
+        'Load more from ' + data['totalResults'] + ' results...';
+  } else {
+    goog.style.setElementShown(this.results1El, false);
+    goog.style.setElementShown(this.results2El, true);
+    if (data['totalResults'] == 0)
+      this.results2El.innerHTML = 'No records found.';
+    else
+      this.results2El.innerHTML =
+          'All ' + data['totalResults'] + ' records loaded.';
+  }
+
 };
 
 
