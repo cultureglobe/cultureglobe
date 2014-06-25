@@ -60,13 +60,12 @@ cultureglobe.Main = function() {
 
   this.we = new window['WebGLEarth']('earth', {
     //'proxyHost': 'http://srtm.webglearth.com/cgi-bin/corsproxy.fcgi?url=',
-    'sky': false,
-    'position': [47.2, 8.5],
-    'altitude': 7000000
+    'sky': false
   });
 
   var mapM = this.we['initMap'](window['WebGLEarth']['Maps']['MAPQUEST']);
   this.we['setBaseMap'](mapM);
+  this.we['setPosition'](36, 15, undefined, 4000000, undefined, 27);
 
   this.startPage = 0;
   this.timer = null;

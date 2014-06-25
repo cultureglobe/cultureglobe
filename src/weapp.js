@@ -11,11 +11,6 @@ goog.require('weapi.App');
 
 goog.require('we.ui.markers.AbstractMarker');
 
-/**
- * Global variable for the WebGL Earth application
- */
-var app = null;
-
 
 /**
  * @inheritDoc
@@ -75,54 +70,3 @@ europeana.weapp.addMarkers = function(jsondata, merge) {
 	var m1key = app.markerManager_.addMarker(null, m1);
 	*/
 }
-
-/**
- * flyToFitBounds
- * @param {number} minlat
- * @param {number} maxlat
- * @param {number} minlon
- * @param {number} maxlon
- */
-europeana.weapp.flyToFitBounds = function(minlat, 
-                                          maxlat,
-                                          minlon,
-                                          maxlon) {
-      minlat = goog.math.toRadians(minlat);
-      maxlat = goog.math.toRadians(maxlat);
-      minlon = goog.math.toRadians(minlon);
-      maxlon = goog.math.toRadians(maxlon);
-
-      var altitude = we.math.geo.calcDistanceToViewBounds(minlat, maxlat,
-          minlon, maxlon,
-          app.context.aspectRatio,
-          app.context.fov);
-
-      var center = we.math.geo.calcBoundsCenter(minlat, maxlat, minlon, maxlon);
-
-      var minalt = app.context.scene.earth.calcAltitudeForZoom(
-          app.context.scene.getMaxZoom() + 0.1, center[0]);
-
-
-      app.animator_.flyTo(center[0], center[1], Math.max(altitude*2.0, minalt));
-      // For the purpose of this Europeana demo we multiply the altitude by 2.0
-};
-
-
-/**
- * Run the europeana app.
- */
-europeana.weapp.run = function() {
-	app = new weapi.App('earth', {'altitude':4209543, 'center':[31.38518,15.18749]});
-	
-	// 'zoom':1.5, 'center':[20.0,6.0]
-	// app.animator_.flyTo(goog.math.toRadians(40.0),
-	// 	goog.math.toRadians(6.0),
-	//	1800000, 0.0, 0.6);
-
-	app.context.scene.camera.setTilt(0.5);
-	
-	// window.setTimeout('alert(app.context.scene.camera.getPositionDegrees())',2000);
-	// window.setTimeout('alert(app.context.scene.earth.getZoom();)',2000);
-		
-	// onResize: app.context.resize()
-};
