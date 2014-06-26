@@ -1,0 +1,200 @@
+html, body {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  padding:0;
+  margin:0;
+  font-size:10px;
+  font-family: arial, sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.plovr-error-report {
+  position: absolute;
+  top: 0;
+  color: #fff;
+  z-index:3000;
+}
+
+.goog-twothumbslider-vertical,.goog-twothumbslider-horizontal {
+  position: relative;
+  overflow: hidden;
+  outline: none;
+}
+
+.goog-twothumbslider-value-thumb {
+  position: absolute;
+  background: url('slider-thumb.png') 0 -2px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.goog-twothumbslider-extent-thumb {
+  position: absolute;
+  background: url('slider-thumb.png') 0 -2px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.goog-twothumbslider-horizontal .goog-twothumbslider-value-thumb {
+  width: 25px;
+  height: 100%;
+}
+
+.goog-twothumbslider-horizontal .goog-twothumbslider-extent-thumb {
+  width: 25px;
+  height: 100%;
+}
+
+#s1 {width:540px;height:59px;margin:0 auto;background-image:url(slider-img.png);}
+
+#s-i {
+  text-align: center;
+  margin:1em;
+}
+
+#s-h {
+  text-align: center;
+  margin-bottom: 5px;
+}
+#s-left {
+  float: left;
+  text-align: right;
+}
+#s-right {
+  text-align: left;
+}
+#q { width: 300px; }
+
+a:hover, a:link, a:visited
+{ 
+  color:#ccc;
+}
+
+#header {
+  position: absolute;
+  width:100%;
+  top:0;
+  z-index: 2000;
+  color: white;
+  background: rgb(0, 0, 0); /* The Fallback */
+  background: rgba(0, 0, 0, 0.6);
+}
+
+#header h2 { text-align: center; font-size:18px;}
+
+#earth {
+  position:absolute;
+  top:0; bottom:40px; left:0; right:0;
+  width:100%;
+  height:100%;
+  background-color:#000;
+}
+
+#footer {
+  position: absolute;
+  bottom:0px; left:0; right:0;
+  z-index: 2000;
+  text-align:center; padding:5px;
+  color: white;
+  background: rgb(0, 0, 0); /* The Fallback */
+  background: rgba(0, 0, 0, 0.6);
+  line-height:140%;
+}
+
+#out1,#out2 {
+  color: #999;
+  margin-left: 1em;
+}
+
+#q {
+  outline:none;
+}
+
+#periods {
+  width:100%;
+  text-align:center;
+  margin:0px auto 25px auto;
+}
+
+#poweredby {position:absolute;top:0;left:0;width:203px;height:61px;background:url('poweredby-white.png');z-index:2000;}
+
+a.marker {
+  position:absolute;
+  opacity:0.8;
+  margin:-32px 0 0 -0px;
+  pointer-events:none;
+}
+a.marker img {
+  float:left;
+  max-width: 70px;
+  max-height: 70px;
+  background:#fff;
+  padding:3px;
+  box-shadow: 0 1px 3px #ccc;
+  border-radius:2px;
+  pointer-events:auto;
+}
+a.marker:hover {
+  opacity:1.0;
+  z-index:3000;
+  text-decoration: none;
+  cursor:pointer;
+}
+a.marker .makertitle {
+  float:left;
+  color:#000;
+  font-weight: bold;
+  background:#fff;
+  padding:3px;
+  box-shadow: 0 1px 3px #ccc;
+  border-radius:2px;
+  width:170px;
+  text-decoration: none;
+  display:none;
+  pointer-events:auto;
+}
+a.marker:hover .makertitle {
+  text-decoration: none;
+  display: inline-block;
+}
+#loading {position:absolute;top:195px;left:50%;width:16px;height:11px;background:url('ajax-loader.gif');margin:0 0 0 -16px;z-index:10000;}
+
+#klokantechlogo{
+  position:absolute;
+  bottom:10px;right:10px;
+  text-indent:-9999px;
+  width:231px;
+  height:64px;
+  background-repeat:no-repeat;
+  background-position:center center;
+  background-image:url(klokantechlogo.png);
+}
+
+#social {
+  position:absolute;
+  width:auto;
+  bottom:45px;
+  left:5px;
+}
+
+
+.results {
+  position: absolute;
+  display:block;
+  bottom:40px;
+  width:180px;
+  left:50%;
+  margin-left:-90px;
+  z-index: 2000;
+  text-align:center; padding:3px;
+  color: white !important;
+  background: rgb(0, 64, 128); /* The Fallback */
+  background: rgba(0, 64, 128, 0.6);
+  line-height:140%;
+  font-weight:bold;
+}
+#results2 {
+  font-style: italic;
+}

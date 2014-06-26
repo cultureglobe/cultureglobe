@@ -1,14 +1,33 @@
 {
-  "id": "europeana",
-  "define": {
-    "goog.DEBUG": false,
-    "goog.dom.ASSUME_STANDARDS_MODE": true
-  },
-  "inputs": "main.js",
-  "paths": [
-    ".",
-    "we"
+  "id": "main",
+
+  "inputs": "src/main.js",
+  // "paths": ["src"],
+
+  "externs": [
+    "WE.externs.js"
   ],
+
+  "define": {
+    "goog.DEBUG": false
+  },
+
   "mode": "ADVANCED",
-  "level": "DEFAULT" // "VERBOSE"
+  "level": "VERBOSE",
+
+  "checks": {
+    // Unfortunately, the Closure Library violates these in many places.
+    // "accessControls": "ERROR",
+    // "visibility": "ERROR"
+
+    "checkTypes": "ERROR",
+    "checkRegExp": "ERROR",
+    "checkVars": "ERROR",
+    "deprecated": "ERROR",
+    "fileoverviewTags": "ERROR",
+    "invalidCasts": "ERROR",
+    "missingProperties": "ERROR",
+    "nonStandardJsDocs": "ERROR",
+    "undefinedVars": "ERROR"
+  }
 }

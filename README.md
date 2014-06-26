@@ -1,28 +1,15 @@
 # Culture Globe - powered by Europeana OpenSearch API and WebGL Earth
 
-The project for Europeana Hackaton in Vienna
+The project originally for Europeana Hackaton in Vienna
 
 ## To start developing 
 
+Download right plovr build (https://code.google.com/p/plovr/downloads/list)
+
 Run:
 
-     java -jar plovr.jar serve main.json
+     make serve
 
-Open in the web browser the file *main.html* (with the latest Google Chrome browser)
+Open in the web browser the file *src/main.html* (with WebGL-enabled browser)
 
 Now you can start to edit the code and just reload the page in browser and the code is recompiled and shown. If there is an error you should see it at the top of the page.
-
-## Queries:
-
-This query retrieves records for a geo boundingbox
-
-http://api.europeana.eu/api/opensearch.rss?wskey=<API-KEY>&startpage=1&searchTerms=enrichment_place_latitude%3A[42+TO+48]+AND+enrichment_place_longitude%3A[10+TO+15]
-http://api.europeana.eu/api/opensearch.rss?wskey=<API-KEY>&startpage=1&searchTerms=enrichment_place_latitude%3A[42+TO+48]+AND+enrichment_place_longitude%3A[10+TO+15]
-
-This query retrieves records for a particular time interval
-
-http://api.europeana.eu/api/opensearch.rss?searchTerms=enrichment_period_begin%3A[814-01-01T00%3A00%3A00Z+TO+1453-01-01T23%3A59%3A59Z]+AND+enrichment_period_end%3A[814-01-01T00%3A00%3A00Z+TO+1453-01-01T23%3A59%3A59Z]&wskey=xxx
-
-__Use with caution!__ This query uses the Europeana test API to do the same thing in JSONP!
-
-http://acceptance.europeana.eu/api/opensearch.json?wskey=<API-KEY>&startpage=1&searchTerms=enrichment_place_latitude%3A[42+TO+48]+AND+enrichment_place_longitude%3A[10+TO+15]&callback=test
