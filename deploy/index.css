@@ -124,6 +124,7 @@ a.marker {
   position:absolute;
   opacity:0.8;
   margin:-32px 0 0 -0px;
+  pointer-events:none;
 }
 a.marker img {
   float:left;
@@ -133,6 +134,7 @@ a.marker img {
   padding:3px;
   box-shadow: 0 1px 3px #ccc;
   border-radius:2px;
+  pointer-events:auto;
 }
 a.marker:hover {
   opacity:1.0;
@@ -151,16 +153,17 @@ a.marker .makertitle {
   width:170px;
   text-decoration: none;
   display:none;
+  pointer-events:auto;
 }
 a.marker:hover .makertitle {
   text-decoration: none;
   display: inline-block;
 }
-#loading {position:absolute;top:186px;left:50%;width:16px;height:11px;background:url('ajax-loader.gif');margin:0 0 0 -16px;z-index:10000;}
+#loading {position:absolute;top:195px;left:50%;width:16px;height:11px;background:url('ajax-loader.gif');margin:0 0 0 -16px;z-index:10000;}
 
 #klokantechlogo{
   position:absolute;
-  bottom:30px;right:10px;
+  bottom:10px;right:10px;
   text-indent:-9999px;
   width:231px;
   height:64px;

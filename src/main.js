@@ -71,6 +71,8 @@ cultureglobe.Main = function() {
   this.timer = null;
   this.payload = '';
 
+  this.markers = [];
+
   this.initListeners_();
 };
 
@@ -136,7 +138,8 @@ cultureglobe.Main.prototype.makeQuery = function(opt_merge) {
       maxYear = minYear + this.slider.getExtent(),
       minLat = 0, minLon = -20, maxLat = 80, maxLon = 110;
 
-  var q = '&profile=minimal&query=europeana_type:*IMAGE*';
+  var q = '&rows=' + cultureglobe.DATA_PAGE_LENGTH +
+          '&query=europeana_type:*IMAGE*';
   if (this.inputEl.value) q += '+AND+' + this.inputEl.value;
   q += '&qf=YEAR:[' + minYear + '+TO+' + maxYear + ']' +
        '&qf=pl_wgs84_pos_lat:[' + minLat + '+TO+' + maxLat + ']' +
@@ -178,10 +181,11 @@ cultureglobe.Main.prototype.displayResults = function(data) {
         maxlon = Math.max(maxlon, lon);
       }
     });
+    //window['console']['log'](minlat, maxlat, minlon, maxlon);
     this.we['flyToFitBounds'](minlat, maxlat, minlon, maxlon);
   }
 
-  //europeana.weapp.addMarkers(data, (this.startPage > 0));
+  this.addMarkers(data, (this.startPage > 0));
 
   this.timer = null;
   goog.style.setElementShown(this.loadingEl, false);
@@ -200,6 +204,70 @@ cultureglobe.Main.prototype.displayResults = function(data) {
       this.results2El.innerHTML =
           'All ' + data['totalResults'] + ' records loaded.';
   }
+};
+
+
+/**
+ * @param {!Object.<string, *>} data The Europeana OpenSearch API JSON data
+ * @param {boolean} merge Merge the new results with existing results?
+ */
+cultureglobe.Main.prototype.addMarkers = function(data, merge) {
+  if (merge !== true) {
+    goog.array.forEach(this.markers, function(el, i, arr) {
+      this.we['removeMarker'](el);
+    }, this);
+    this.markers = [];
+  }
+
+  // Iterate on the JSON and add new results
+  goog.array.forEach(/** @type {Array} */(data['items']), function(item) {
+    if (!item['edmPreview']) return; // skip items without thumbnail
+
+    var lat = item['edmPlaceLatitude'], lon = item['edmPlaceLongitude'];
+    if (!lat || !lon) return; // skip items without geotags (should not happen)
+
+    lat = parseFloat(lat[lat.length - 1]);
+    lon = parseFloat(lon[lon.length - 1]);
+
+    var m = this.createMarker(lat, lon, item['edmPreview'], item['guid'],
+        goog.string.unescapeEntities((item['title'] || [''])[0]),
+        goog.string.unescapeEntities((item['dcCreator'] || [''])[0] +
+        ' (' + item['provider'] + ')'));
+    this.markers.push(m);
+    this.we['initMarker'](m);
+  }, this);
+
+};
+
+
+
+/**
+ * @param {number} lat
+ * @param {number} lon
+ * @param {string} image
+ * @param {string} url
+ * @param {string} title
+ * @param {string} institution
+ * @return {!Object}
+ * @constructor
+ */
+cultureglobe.Main.prototype.createMarker =
+    function(lat, lon, image, url, title, institution) {
+  var content = goog.dom.createDom('div', {'class': 'makertitle'},
+                    goog.dom.createTextNode(title),
+                    goog.dom.createDom('div', {'style': 'color:#ccc'},
+                        goog.dom.createTextNode(institution)
+                    )
+                );
+  var el = goog.dom.createDom('a',
+      {'class': 'marker', 'href': url, 'target': '_blank'},
+      goog.dom.createDom('img', {'src': image}),
+      content);
+
+  return new window['WebGLEarth']['CustomMarker'](
+      goog.math.toRadians(lat),
+      goog.math.toRadians(lon),
+      el);
 };
 
 goog.exportSymbol('Main', cultureglobe.Main);
