@@ -58,12 +58,12 @@ cultureglobe.Main = function() {
   this.slider.setStep(5);
   this.slider.setMoveToPointEnabled(true);
 
-  this.we = new window['WebGLEarth']('earth', {
+  this.we = new WebGLEarth('earth', {
     //'proxyHost': 'http://srtm.webglearth.com/cgi-bin/corsproxy.fcgi?url=',
     'sky': false
   });
 
-  var mapM = this.we['initMap'](window['WebGLEarth']['Maps']['MAPQUEST']);
+  var mapM = this.we['initMap'](WebGLEarth['Maps']['MAPQUEST']);
   this.we['setBaseMap'](mapM);
   this.we['setPosition'](36, 15, undefined, 4000000, undefined, 27);
 
@@ -185,7 +185,7 @@ cultureglobe.Main.prototype.displayResults = function(data) {
     this.we['flyToFitBounds'](minlat, maxlat, minlon, maxlon);
   }
 
-  this.addMarkers(data, (this.startPage > 0));
+  this.addMarkers(items, (this.startPage > 0));
 
   this.timer = null;
   goog.style.setElementShown(this.loadingEl, false);
@@ -208,10 +208,10 @@ cultureglobe.Main.prototype.displayResults = function(data) {
 
 
 /**
- * @param {!Object.<string, *>} data The Europeana OpenSearch API JSON data
+ * @param {?Array.<Object>} items The items.
  * @param {boolean} merge Merge the new results with existing results?
  */
-cultureglobe.Main.prototype.addMarkers = function(data, merge) {
+cultureglobe.Main.prototype.addMarkers = function(items, merge) {
   if (merge !== true) {
     goog.array.forEach(this.markers, function(el, i, arr) {
       this.we['removeMarker'](el);
@@ -219,8 +219,10 @@ cultureglobe.Main.prototype.addMarkers = function(data, merge) {
     this.markers = [];
   }
 
+  if (!items) return;
+
   // Iterate on the JSON and add new results
-  goog.array.forEach(/** @type {Array} */(data['items']), function(item) {
+  goog.array.forEach(items, function(item) {
     if (!item['edmPreview']) return; // skip items without thumbnail
 
     var lat = item['edmPlaceLatitude'], lon = item['edmPlaceLongitude'];
@@ -264,7 +266,7 @@ cultureglobe.Main.prototype.createMarker =
       goog.dom.createDom('img', {'src': image}),
       content);
 
-  return new window['WebGLEarth']['CustomMarker'](
+  return new WebGLEarth['CustomMarker'](
       goog.math.toRadians(lat),
       goog.math.toRadians(lon),
       el);

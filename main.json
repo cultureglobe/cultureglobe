@@ -4,6 +4,10 @@
   "inputs": "src/main.js",
   // "paths": ["src"],
 
+  "externs": [
+    "WE.externs.js"
+  ],
+
   "define": {
     "goog.DEBUG": false
   },
