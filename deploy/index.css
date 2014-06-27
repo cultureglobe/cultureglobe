@@ -118,6 +118,8 @@ a:hover, a:link, a:visited
   margin:0px auto 25px auto;
 }
 
+#byarea {width:100%;text-align:center;margin:0px auto 10px auto;font-size: 12px;}
+
 #poweredby {position:absolute;top:0;left:0;width:203px;height:61px;background:url('poweredby-white.png');z-index:2000;}
 
 a.marker {

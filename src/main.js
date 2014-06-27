@@ -30,7 +30,7 @@ cultureglobe.EUROPEANA_API_KEY = 'ymDLchp8i';
 /**
  * @define {number} Number of records to load per each request.
  */
-cultureglobe.DATA_PAGE_LENGTH = 12;
+cultureglobe.DATA_PAGE_LENGTH = 16;
 
 
 
@@ -45,6 +45,7 @@ cultureglobe.Main = function() {
   this.out1El = goog.dom.getElement('out1');
   this.inputEl = goog.dom.getElement('q');
   this.periodEl = goog.dom.getElement('period');
+  this.byAreaEl = goog.dom.getElement('byareacheckbox');
 
   goog.style.setElementShown(this.loadingEl, false);
   goog.style.setElementShown(this.results1El, false);
@@ -72,6 +73,10 @@ cultureglobe.Main = function() {
   this.payload = '';
 
   this.markers = [];
+
+  this.areaQueryingTimer = new goog.Timer(750);
+  this.lastQueriedArea = [0, 0, 0, 0];
+  this.lastQueriedAreaStableFor = 0;
 
   this.initListeners_();
 };
@@ -109,6 +114,39 @@ cultureglobe.Main.prototype.initListeners_ = function() {
     e.preventDefault();
     e.stopPropagation();
   }, false, this);
+
+  goog.events.listen(this.byAreaEl, goog.events.EventType.CHANGE, function(e) {
+    if (this.byAreaEl.checked) {
+      this.checkBounds();
+      this.areaQueryingTimer.start();
+    } else {
+      this.areaQueryingTimer.stop();
+    }
+    this.makeQuery();
+  }, false, this);
+
+  goog.events.listen(this.areaQueryingTimer, goog.Timer.TICK, function(e) {
+    if (this.checkBounds()) {
+      this.makeQuery();
+    }
+  }, false, this);
+};
+
+
+/**
+ * @return {boolean} Did the bounds change?
+ */
+cultureglobe.Main.prototype.checkBounds = function() {
+  var bnds = this.we['getBounds'](undefined, 7);
+  var stable = false;
+  if (bnds && this.lastQueriedArea) {
+    stable = goog.math.nearlyEquals(this.lastQueriedArea[0], bnds[0], 0.0001) &&
+             goog.math.nearlyEquals(this.lastQueriedArea[1], bnds[1], 0.0001) &&
+             goog.math.nearlyEquals(this.lastQueriedArea[2], bnds[2], 0.0001) &&
+             goog.math.nearlyEquals(this.lastQueriedArea[3], bnds[3], 0.0001);
+  }
+  this.lastQueriedArea = bnds;
+  return !stable;
 };
 
 
@@ -137,6 +175,17 @@ cultureglobe.Main.prototype.makeQuery = function(opt_merge) {
   var minYear = this.slider.getValue(),
       maxYear = minYear + this.slider.getExtent(),
       minLat = 0, minLon = -20, maxLat = 80, maxLon = 110;
+
+  if (this.byAreaEl.checked) {
+    if (!this.lastQueriedArea) {
+      return;
+    }
+    minLat = this.lastQueriedArea[0];
+    maxLat = this.lastQueriedArea[1];
+    minLon = this.lastQueriedArea[2];
+    maxLon = this.lastQueriedArea[3];
+  }
+  //window['console']['log'](minLat, minLon, maxLat, maxLon);
 
   var q = '&rows=' + cultureglobe.DATA_PAGE_LENGTH +
           '&query=europeana_type:*IMAGE*';
@@ -168,7 +217,7 @@ cultureglobe.Main.prototype.displayResults = function(data) {
 
   var items = /** @type {?Array.<Object>} */(data['items']);
 
-  if (this.startPage == 0 && items) {
+  if (this.startPage == 0 && items && !this.byAreaEl.checked) {
     var minlat = 90, minlon = 180, maxlat = -90, maxlon = -180;
     goog.array.forEach(items, function(item) {
       var lat = item['edmPlaceLatitude'], lon = item['edmPlaceLongitude'];
